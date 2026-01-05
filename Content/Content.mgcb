@@ -25,6 +25,3 @@
 /processorParam:TextureFormat=Color
 /build:images/textures.png
 
-#begin images/XO.png
-/copy:images/XO.png
-
