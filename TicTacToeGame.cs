@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 
 namespace TicTacToe
 {
@@ -9,8 +11,10 @@ namespace TicTacToe
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D _textureAtlas;
-        private Rectangle xTokenSourceRectangle = new Rectangle(48, 0, 16, 16);
-        private Rectangle oTokenSourceRectangle = new Rectangle(64, 0, 16, 16);
+        private List<Token> _tokens = new();
+        private Rectangle _xTokenSourceRectangle = new Rectangle(48, 0, 16, 16);
+        private Rectangle _oTokenSourceRectangle = new Rectangle(64, 0, 16, 16);
+        private MouseState _mouseState;
 
         public TicTacToeGame()
         {
@@ -38,7 +42,12 @@ namespace TicTacToe
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            _mouseState = Mouse.GetState();
+
+            if (_mouseState.LeftButton == ButtonState.Pressed)
+            {
+                _tokens.Add(new Token(_textureAtlas, new Vector2(_mouseState.Position.X, _mouseState.Position.Y)));
+            }
 
             base.Update(gameTime);
         }
@@ -49,10 +58,15 @@ namespace TicTacToe
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
+            foreach(Token token in _tokens)
+            {
+                token.Draw(_spriteBatch);
+            }
+
             _spriteBatch.Draw(
                 _textureAtlas,
-                Vector2.Zero,
-                xTokenSourceRectangle,
+                new Vector2(_xTokenSourceRectangle.Width * 4.0f + 10, 64),
+                _oTokenSourceRectangle,
                 Color.White,
                 0.0f,
                 Vector2.One,
@@ -60,18 +74,6 @@ namespace TicTacToe
                 SpriteEffects.None,
                 0.0f
             );
-
-            _spriteBatch.Draw(
-                _textureAtlas,
-                new Vector2(xTokenSourceRectangle.Width * 4.0f + 10, 0),
-                oTokenSourceRectangle,
-                Color.White,
-                0.0f,
-                Vector2.One,
-                4.0f,
-                SpriteEffects.None,
-                0.0f
-                );
 
             _spriteBatch.End();
 
