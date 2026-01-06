@@ -54,7 +54,7 @@ namespace TicTacToe
 
             _textureAtlas = Content.Load<Texture2D>("images/textures");
 
-            _gameBoard = new GameBoard(_textureAtlas, new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height) * 0.5f);
+            _gameBoard = new GameBoard(_textureAtlas, new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height) * 0.5f, _gameBoardSourceRect);
         }
 
         protected override void Update(GameTime gameTime)
@@ -104,9 +104,11 @@ namespace TicTacToe
                 );
 
                 //Debug.WriteLine(tokenBounds);
+                if (tokenBounds.Intersects(_gameBoard.GetTopLeft()))
+                {
+                    Debug.WriteLine($"Intersecting!");
+                }
             }
-
-            Debug.WriteLine(_gameBoard.BoardPosition);
 
             base.Update(gameTime);
         }
@@ -119,7 +121,7 @@ namespace TicTacToe
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-            _gameBoard.Draw(_spriteBatch, _gameBoardSourceRect, new Vector2(_gameBoardSourceRect.Width, _gameBoardSourceRect.Height) * 0.5f);
+            _gameBoard.Draw(_spriteBatch, new Vector2(_gameBoardSourceRect.Width, _gameBoardSourceRect.Height) * 0.5f);
 
             foreach (TokenX token in _tokensX)
             {
