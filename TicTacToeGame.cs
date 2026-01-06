@@ -9,6 +9,7 @@ using MonoGameLibrary;
 using MonoGameGum;
 using MonoGameGum.GueDeriving;
 using System;
+using System.Diagnostics;
 
 namespace TicTacToe
 {
@@ -30,6 +31,7 @@ namespace TicTacToe
         // UI Stuff
         private Panel _gamePanel;
         private Button _topLeftButton;
+        private Button _topMiddleButton;
 
         public TicTacToeGame()
         {
@@ -47,8 +49,6 @@ namespace TicTacToe
             GumService.Default.Initialize(this, DefaultVisualsVersion.V3);
             GumService.Default.ContentLoader.XnaContentManager = Content;
 
-            CreateGamePanel();
-
             base.Initialize();
         }
 
@@ -57,39 +57,6 @@ namespace TicTacToe
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             _textureAtlas = Content.Load<Texture2D>("images/textures");
-        }
-
-        private void CreateGamePanel()
-        {
-            _gamePanel = new Panel();
-            _gamePanel.Anchor(Gum.Wireframe.Anchor.Center);
-            _gamePanel.WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute;
-            _gamePanel.HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute;
-            _gamePanel.Width = 384;
-            _gamePanel.Height = 384;
-            _gamePanel.IsVisible = true;
-            _gamePanel.AddToRoot();
-
-            //var background = new ColoredRectangleRuntime();
-            //background.Dock(Gum.Wireframe.Dock.Fill);
-            //background.Color = Color.ForestGreen;
-            //background.Alpha = 100;
-            //_gamePanel.AddChild(background);
-
-            _topLeftButton = new Button();
-            _topLeftButton.Text = "";
-            _topLeftButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
-            _topLeftButton.X = 5;
-            _topLeftButton.Y = 5;
-            _topLeftButton.Width = 110;
-            _topLeftButton.Height = 105;
-            _topLeftButton.Click += HandleTopLeftButtonClicked;
-            _gamePanel.AddChild(_topLeftButton);
-        }
-
-        public void HandleTopLeftButtonClicked(object sender, EventArgs e)
-        {
-            isTopLeftClicked = true;
         }
 
         protected override void Update(GameTime gameTime)
@@ -102,7 +69,7 @@ namespace TicTacToe
 
             GumService.Default.Update(gameTime);
 
-            if (_mouseInfo.WasButtonJustPressed(MouseButton.Left) && isTurnX == true && isTopLeftClicked == false)
+            if (_mouseInfo.WasButtonJustPressed(MouseButton.Left) && isTurnX == true)
             {
                 _tokensX.Add(new TokenX(_textureAtlas, new Vector2(_mouseState.Position.X, _mouseState.Position.Y)));
                 isTurnX = false;
@@ -111,6 +78,34 @@ namespace TicTacToe
             {
                 _tokensO.Add(new TokenO(_textureAtlas, new Vector2(_mouseState.Position.X, _mouseState.Position.Y)));
                 isTurnX = true;
+            }
+
+            foreach (TokenX token in _tokensX)
+            {
+                Vector2 location = token.TokenPosition;
+
+                Rectangle tokenBounds = new Rectangle(
+                    (int)location.X,
+                    (int)location.Y,
+                    (int)_xTokenSourceRectangle.Width,
+                    (int)_xTokenSourceRectangle.Height
+                );
+
+                //Debug.WriteLine(tokenBounds);
+            }
+
+            foreach (TokenO token in _tokensO)
+            {
+                Vector2 location = token.TokenPosition;
+
+                Rectangle tokenBounds = new Rectangle(
+                    (int)location.X,
+                    (int)location.Y,
+                    (int)_xTokenSourceRectangle.Width,
+                    (int)_xTokenSourceRectangle.Height
+                );
+
+                //Debug.WriteLine(tokenBounds);
             }
 
             base.Update(gameTime);
@@ -133,7 +128,8 @@ namespace TicTacToe
                 new Vector2(_gameBoard.Width * 0.5f, _gameBoard.Height * 0.5f),
                 8.0f,
                 SpriteEffects.None,
-                0.0f);
+                0.0f
+            );
 
             foreach (TokenX token in _tokensX)
             {
