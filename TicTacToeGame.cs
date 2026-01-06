@@ -18,20 +18,15 @@ namespace TicTacToe
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D _textureAtlas;
+        private GameBoard _gameBoard;
         private List<TokenX> _tokensX = new();
         private List<TokenO> _tokensO = new();
-        private Rectangle _gameBoard = new Rectangle(0, 0, 48, 48);
+        private Rectangle _gameBoardSourceRect = new Rectangle(0, 0, 48, 48);
         private Rectangle _xTokenSourceRectangle = new Rectangle(48, 0, 16, 16);
         private Rectangle _oTokenSourceRectangle = new Rectangle(64, 0, 16, 16);
         private MouseState _mouseState;
         private MouseInfo _mouseInfo;
         private bool isTurnX = true;
-        private bool isTopLeftClicked = false;
-
-        // UI Stuff
-        private Panel _gamePanel;
-        private Button _topLeftButton;
-        private Button _topMiddleButton;
 
         public TicTacToeGame()
         {
@@ -45,9 +40,10 @@ namespace TicTacToe
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            _mouseInfo = new MouseInfo();
             GumService.Default.Initialize(this, DefaultVisualsVersion.V3);
             GumService.Default.ContentLoader.XnaContentManager = Content;
+
+            _mouseInfo = new MouseInfo();
 
             base.Initialize();
         }
@@ -57,6 +53,8 @@ namespace TicTacToe
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             _textureAtlas = Content.Load<Texture2D>("images/textures");
+
+            _gameBoard = new GameBoard(_textureAtlas, new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height) * 0.5f);
         }
 
         protected override void Update(GameTime gameTime)
@@ -108,6 +106,8 @@ namespace TicTacToe
                 //Debug.WriteLine(tokenBounds);
             }
 
+            Debug.WriteLine(_gameBoard.BoardPosition);
+
             base.Update(gameTime);
         }
 
@@ -119,17 +119,7 @@ namespace TicTacToe
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-            _spriteBatch.Draw(
-                _textureAtlas,
-                new Vector2(Window.ClientBounds.Width * 0.5f, Window.ClientBounds.Height * 0.5f),
-                _gameBoard,
-                Color.White,
-                0.0f,
-                new Vector2(_gameBoard.Width * 0.5f, _gameBoard.Height * 0.5f),
-                8.0f,
-                SpriteEffects.None,
-                0.0f
-            );
+            _gameBoard.Draw(_spriteBatch, _gameBoardSourceRect, new Vector2(_gameBoardSourceRect.Width, _gameBoardSourceRect.Height) * 0.5f);
 
             foreach (TokenX token in _tokensX)
             {
