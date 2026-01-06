@@ -3,7 +3,12 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary.Input;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+using Gum.Forms;
+using Gum.Forms.Controls;
+using MonoGameLibrary;
+using MonoGameGum;
+using MonoGameGum.GueDeriving;
+using System;
 
 namespace TicTacToe
 {
@@ -20,6 +25,11 @@ namespace TicTacToe
         private MouseState _mouseState;
         private MouseInfo _mouseInfo;
         private bool isTurnX = true;
+        private bool isTopLeftClicked = false;
+
+        // UI Stuff
+        private Panel _gamePanel;
+        private Button _topLeftButton;
 
         public TicTacToeGame()
         {
@@ -34,6 +44,10 @@ namespace TicTacToe
         {
             // TODO: Add your initialization logic here
             _mouseInfo = new MouseInfo();
+            GumService.Default.Initialize(this, DefaultVisualsVersion.V3);
+            GumService.Default.ContentLoader.XnaContentManager = Content;
+
+            CreateGamePanel();
 
             base.Initialize();
         }
@@ -45,6 +59,39 @@ namespace TicTacToe
             _textureAtlas = Content.Load<Texture2D>("images/textures");
         }
 
+        private void CreateGamePanel()
+        {
+            _gamePanel = new Panel();
+            _gamePanel.Anchor(Gum.Wireframe.Anchor.Center);
+            _gamePanel.WidthUnits = Gum.DataTypes.DimensionUnitType.Absolute;
+            _gamePanel.HeightUnits = Gum.DataTypes.DimensionUnitType.Absolute;
+            _gamePanel.Width = 384;
+            _gamePanel.Height = 384;
+            _gamePanel.IsVisible = true;
+            _gamePanel.AddToRoot();
+
+            //var background = new ColoredRectangleRuntime();
+            //background.Dock(Gum.Wireframe.Dock.Fill);
+            //background.Color = Color.ForestGreen;
+            //background.Alpha = 100;
+            //_gamePanel.AddChild(background);
+
+            _topLeftButton = new Button();
+            _topLeftButton.Text = "";
+            _topLeftButton.Anchor(Gum.Wireframe.Anchor.TopLeft);
+            _topLeftButton.X = 5;
+            _topLeftButton.Y = 5;
+            _topLeftButton.Width = 110;
+            _topLeftButton.Height = 105;
+            _topLeftButton.Click += HandleTopLeftButtonClicked;
+            _gamePanel.AddChild(_topLeftButton);
+        }
+
+        public void HandleTopLeftButtonClicked(object sender, EventArgs e)
+        {
+            isTopLeftClicked = true;
+        }
+
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -53,7 +100,9 @@ namespace TicTacToe
             _mouseState = Mouse.GetState();
             _mouseInfo.Update();
 
-            if (_mouseInfo.WasButtonJustPressed(MouseButton.Left) && isTurnX == true)
+            GumService.Default.Update(gameTime);
+
+            if (_mouseInfo.WasButtonJustPressed(MouseButton.Left) && isTurnX == true && isTopLeftClicked == false)
             {
                 _tokensX.Add(new TokenX(_textureAtlas, new Vector2(_mouseState.Position.X, _mouseState.Position.Y)));
                 isTurnX = false;
@@ -70,6 +119,8 @@ namespace TicTacToe
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.BurlyWood);
+
+            GumService.Default.Draw();
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
@@ -95,6 +146,7 @@ namespace TicTacToe
             }
 
             _spriteBatch.End();
+
 
             base.Draw(gameTime);
         }
