@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGameLibrary.Input;
 using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
+using System.Diagnostics.CodeAnalysis;
 
 namespace TicTacToe
 {
@@ -11,14 +12,20 @@ namespace TicTacToe
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D _textureAtlas;
-        private List<Token> _tokens = new();
+        private List<TokenX> _tokensX = new();
+        private List<TokenO> _tokensO = new();
+        private Rectangle _gameBoard = new Rectangle(0, 0, 48, 48);
         private Rectangle _xTokenSourceRectangle = new Rectangle(48, 0, 16, 16);
         private Rectangle _oTokenSourceRectangle = new Rectangle(64, 0, 16, 16);
         private MouseState _mouseState;
+        private MouseInfo _mouseInfo;
+        private bool isTurnX = true;
 
         public TicTacToeGame()
         {
             _graphics = new GraphicsDeviceManager(this);
+            _graphics.PreferredBackBufferWidth = 400;
+            _graphics.PreferredBackBufferHeight = 400;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -26,6 +33,7 @@ namespace TicTacToe
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            _mouseInfo = new MouseInfo();
 
             base.Initialize();
         }
@@ -43,10 +51,17 @@ namespace TicTacToe
                 Exit();
 
             _mouseState = Mouse.GetState();
+            _mouseInfo.Update();
 
-            if (_mouseState.LeftButton == ButtonState.Pressed)
+            if (_mouseInfo.WasButtonJustPressed(MouseButton.Left) && isTurnX == true)
             {
-                _tokens.Add(new Token(_textureAtlas, new Vector2(_mouseState.Position.X, _mouseState.Position.Y)));
+                _tokensX.Add(new TokenX(_textureAtlas, new Vector2(_mouseState.Position.X, _mouseState.Position.Y)));
+                isTurnX = false;
+            }
+            else if (_mouseInfo.WasButtonJustPressed(MouseButton.Left) && isTurnX == false)
+            {
+                _tokensO.Add(new TokenO(_textureAtlas, new Vector2(_mouseState.Position.X, _mouseState.Position.Y)));
+                isTurnX = true;
             }
 
             base.Update(gameTime);
@@ -58,22 +73,26 @@ namespace TicTacToe
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-            foreach(Token token in _tokens)
-            {
-                token.Draw(_spriteBatch);
-            }
-
             _spriteBatch.Draw(
                 _textureAtlas,
-                new Vector2(_xTokenSourceRectangle.Width * 4.0f + 10, 64),
-                _oTokenSourceRectangle,
+                new Vector2(Window.ClientBounds.Width * 0.5f, Window.ClientBounds.Height * 0.5f),
+                _gameBoard,
                 Color.White,
                 0.0f,
-                Vector2.One,
-                4.0f,
+                new Vector2(_gameBoard.Width * 0.5f, _gameBoard.Height * 0.5f),
+                8.0f,
                 SpriteEffects.None,
-                0.0f
-            );
+                0.0f);
+
+            foreach (TokenX token in _tokensX)
+            {
+                token.Draw(_spriteBatch, _xTokenSourceRectangle, new Vector2(8, 8));
+            }
+
+            foreach (TokenO token in _tokensO)
+            {
+                token.Draw(_spriteBatch, _oTokenSourceRectangle, new Vector2(8, 8));
+            }
 
             _spriteBatch.End();
 

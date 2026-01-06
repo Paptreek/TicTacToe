@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace TicTacToe;
 
-public class Token
+public class TokenX
 {
     private Texture2D _tokenTexture;
     private Vector2 _tokenPosition;
@@ -15,7 +15,7 @@ public class Token
     private SpriteEffects _tokenEffects = SpriteEffects.None;
     private float _tokenLayerDepth = 0.0f;
 
-    public Token(Texture2D tokenTexture, Vector2 tokenPosition)
+    public TokenX(Texture2D tokenTexture, Vector2 tokenPosition)
     {
         _tokenTexture = tokenTexture;
         _tokenPosition = tokenPosition;
@@ -25,8 +25,8 @@ public class Token
         _tokenSource.Height = 16;
     }
 
-    public void Draw(SpriteBatch spriteBatch)
+    public void Draw(SpriteBatch spriteBatch, Rectangle tokenSource, Vector2 tokenOrigin)
     {
-        spriteBatch.Draw(_tokenTexture, _tokenPosition, _tokenSource, _tokenColor, _tokenRotation, _tokenOrigin, _tokenScale, _tokenEffects, _tokenLayerDepth);
+        spriteBatch.Draw(_tokenTexture, _tokenPosition, tokenSource, _tokenColor, _tokenRotation, tokenOrigin, _tokenScale, _tokenEffects, _tokenLayerDepth);
     }
 }
