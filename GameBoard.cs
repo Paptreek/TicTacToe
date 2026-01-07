@@ -17,13 +17,32 @@ public class GameBoard
     public bool IsTopLeftTaken { get; set; }
     public bool IsTopMiddleTaken { get; set; }
     public bool IsTopRightTaken { get; set; }
+    public bool IsLeftTaken { get; set; }
+    public bool IsMiddleTaken { get; set; }
+    public bool IsRightTaken { get; set; }
+    public bool IsBottomLeftTaken { get; set; }
+    public bool IsBottomMiddleTaken { get; set; }
+    public bool IsBottomRightTaken { get; set; }
 
     public bool IsTopLeftPlayedByX { get; set; }
-    public bool IsTopLeftPlayedByO { get; set; }
     public bool IsTopMiddlePlayedByX { get; set; }
-    public bool IsTopMiddlePlayedByO { get; set; }
     public bool IsTopRightPlayedByX { get; set; }
+    public bool IsLeftPlayedByX { get; set; }
+    public bool IsMiddlePlayedByX { get; set; }
+    public bool IsRightPlayedByX { get; set; }
+    public bool IsBottomLeftPlayedByX { get; set; }
+    public bool IsBottomMiddlePlayedByX { get; set; }
+    public bool IsBottomRightPlayedByX { get; set; }
+
+    public bool IsTopLeftPlayedByO { get; set; }
+    public bool IsTopMiddlePlayedByO { get; set; }
     public bool IsTopRightPlayedByO { get; set; }
+    public bool IsLeftPlayedByO { get; set; }
+    public bool IsMiddlePlayedByO { get; set; }
+    public bool IsRightPlayedByO { get; set; }
+    public bool IsBottomLeftPlayedByO { get; set; }
+    public bool IsBottomMiddlePlayedByO { get; set; }
+    public bool IsBottomRightPlayedByO { get; set; }
 
 
     public GameBoard(Texture2D boardTexture, Vector2 boardPosition, Rectangle boardSource)
@@ -94,16 +113,46 @@ public class GameBoard
 
     public Vector2 GetTopLeftLocation()
     {
-        return new Vector2(GetTopLeft().X + 60, GetTopLeft().Y + 64);
+        return new Vector2(GetTopLeft().X + 60, GetTopLeft().Y + 62);
     }
 
     public Vector2 GetTopMiddleLocation()
     {
-        return new Vector2(GetTopMiddle().X + 56, GetTopMiddle().Y + 64);
+        return new Vector2(GetTopMiddle().X + 56, GetTopMiddle().Y + 62);
     }
 
     public Vector2 GetTopRightLocation()
     {
-        return new Vector2(GetTopRight().X + 60, GetTopRight().Y + 64);
+        return new Vector2(GetTopRight().X + 60, GetTopRight().Y + 62);
+    }
+
+    public Vector2 GetLeftLocation()
+    {
+        return new Vector2(GetLeft().X + 60, GetLeft().Y + 56);
+    }
+
+    public Vector2 GetMiddleLocation()
+    {
+        return new Vector2(GetMiddle().X + 56, GetMiddle().Y + 56);
+    }
+
+    public Vector2 GetRightLocation()
+    {
+        return new Vector2(GetRight().X + 60, GetRight().Y + 56);
+    }
+
+    public Vector2 GetBottomLeftLocation()
+    {
+        return new Vector2(GetBottomLeft().X + 60, GetBottomLeft().Y + 62);
+    }
+
+    public Vector2 GetBottomMiddleLocation()
+    {
+        return new Vector2(GetBottomMiddle().X + 56, GetBottomMiddle().Y + 62);
+    }
+
+    public Vector2 GetBottomRightLocation()
+    {
+        return new Vector2(GetBottomRight().X + 60, GetBottomRight().Y + 62);
     }
 }
