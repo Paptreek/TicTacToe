@@ -83,6 +83,9 @@ namespace TicTacToe
 
             _gameBoard.Draw(_spriteBatch, new Vector2(_gameBoardSourceRect.Width, _gameBoardSourceRect.Height) * 0.5f);
 
+            //DrawBoardRectangleTest();
+            //DrawTokenRectangleTest();
+
             foreach (Token token in _xTokens)
             {
                 token.DrawOnBoard(_spriteBatch, _xTokenSourceRectangle, new Vector2(8, 8));
@@ -93,56 +96,53 @@ namespace TicTacToe
                 token.DrawOnBoard(_spriteBatch, _oTokenSourceRectangle, new Vector2(8, 8));
             }
 
-            //DrawBoardRectangleTest();
-            //DrawTokenRectangleTest();
-
             _spriteBatch.End();
 
 
             base.Draw(gameTime);
         }
 
-        //public void DrawBoardRectangleTest()
-        //{
-        //    Texture2D texture;
+        public void DrawBoardRectangleTest()
+        {
+            Texture2D texture;
 
-        //    texture = new Texture2D(GraphicsDevice, 1, 1);
-        //    texture.SetData(new Color[] { Color.Snow });
+            texture = new Texture2D(GraphicsDevice, 1, 1);
+            texture.SetData(new Color[] { Color.Snow });
 
-        //    _spriteBatch.Draw(
-        //        texture,
-        //        new Rectangle(272, 272, 120, 120),
-        //        Color.White
-        //    );
-        //}
+            _spriteBatch.Draw(
+                texture,
+                new Rectangle(8, 8, 120, 120),
+                Color.White
+            );
+        }
 
-        //public void DrawTokenRectangleTest()
-        //{
-        //    Texture2D texture;
+        public void DrawTokenRectangleTest()
+        {
+            Texture2D texture;
 
-        //    texture = new Texture2D(GraphicsDevice, 1, 1);
-        //    texture.SetData(new Color[] { Color.Snow });
+            texture = new Texture2D(GraphicsDevice, 1, 1);
+            texture.SetData(new Color[] { Color.Snow });
 
-        //    foreach (Token token in _oTokens)
-        //    {
-        //        _spriteBatch.Draw(
-        //            texture,
-        //            new Rectangle(
-        //                (int)token.TokenPosition.X - 16,
-        //                (int)token.TokenPosition.Y - 16,
-        //                (int)_oTokenSourceRectangle.Width * 2,
-        //                (int)_oTokenSourceRectangle.Height * 2),
-        //            Color.White);
-        //    }
-        //}
+            foreach (Token token in _oTokens)
+            {
+                _spriteBatch.Draw(
+                    texture,
+                    new Rectangle(
+                        (int)token.TokenPosition.X - 4,
+                        (int)token.TokenPosition.Y - 4,
+                        (int)_oTokenSourceRectangle.Width - 8,
+                        (int)_oTokenSourceRectangle.Height - 8),
+                    Color.White);
+            }
+        }
 
         public void GetPlayerChoice()
         {
             Rectangle clickArea = new Rectangle(
-                    (int)_mouseState.Position.X - 16,
-                    (int)_mouseState.Position.Y - 16,
-                    (int)_xTokenSourceRectangle.Width * 2,
-                    (int)_xTokenSourceRectangle.Height * 2
+                    (int)_mouseState.Position.X - 4,
+                    (int)_mouseState.Position.Y - 4,
+                    (int)_xTokenSourceRectangle.Width - 8,
+                    (int)_xTokenSourceRectangle.Height - 8
             );
 
             if (_mouseInfo.WasButtonJustPressed(MouseButton.Left))
