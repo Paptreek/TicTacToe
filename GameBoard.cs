@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Diagnostics;
 
 namespace TicTacToe;
 
@@ -8,38 +7,76 @@ public class GameBoard
 {
     private Texture2D _boardTexture;
     private Color _boardColor = Color.White;
-    private Rectangle _boardSource;
     private float _boardRotation = 0.0f;
     private float _boardScale = 8.0f;
     private SpriteEffects _boardEffects = SpriteEffects.None;
     private float _boardLayerDepth = 0.0f;
     public Vector2 BoardPosition { get; private set; }
+    public Rectangle BoardSource { get; private set; }
 
     public GameBoard(Texture2D boardTexture, Vector2 boardPosition, Rectangle boardSource)
     {
         _boardTexture = boardTexture;
-        _boardSource = boardSource;
+        BoardSource = boardSource;
         BoardPosition = boardPosition;
     }
 
     public void Draw(SpriteBatch spriteBatch, Vector2 boardOrigin)
     {
-        spriteBatch.Draw(_boardTexture, BoardPosition, _boardSource, _boardColor, _boardRotation, boardOrigin, _boardScale, _boardEffects, _boardLayerDepth);
+        spriteBatch.Draw(_boardTexture, BoardPosition, BoardSource, _boardColor, _boardRotation, boardOrigin, _boardScale, _boardEffects, _boardLayerDepth);
     }
 
     public Rectangle GetTopLeft()
     {
-        Vector2 location = BoardPosition;
+        Rectangle bounds = new Rectangle(8, 8, 120, 120);
+        return bounds;
+    }
 
-        Rectangle bounds = new Rectangle(
-            (int)location.X,
-            (int)location.Y,
-            (int)_boardSource.Width,
-            (int)_boardSource.Height
-        );
+    public Rectangle GetTopMiddle()
+    {
+        Rectangle bounds = new Rectangle(144, 8, 112, 120);
+        return bounds;
+    }
 
-        //Debug.WriteLine(bounds);
+    public Rectangle GetTopRight()
+    {
+        Rectangle bounds = new Rectangle(272, 8, 120, 120);
+        return bounds;
+    }
 
+    public Rectangle GetLeft()
+    {
+        Rectangle bounds = new Rectangle(8, 144, 120, 112);
+        return bounds;
+    }
+
+    public Rectangle GetMiddle()
+    {
+        Rectangle bounds = new Rectangle(144, 144, 112, 112);
+        return bounds;
+    }
+
+    public Rectangle GetRight()
+    {
+        Rectangle bounds = new Rectangle(272, 144, 120, 112);
+        return bounds;
+    }
+
+    public Rectangle GetBottomLeft()
+    {
+        Rectangle bounds = new Rectangle(8, 272, 120, 120);
+        return bounds;
+    }
+
+    public Rectangle GetBottomMiddle()
+    {
+        Rectangle bounds = new Rectangle(144, 272, 112, 120);
+        return bounds;
+    }
+
+    public Rectangle GetBottomRight()
+    {
+        Rectangle bounds = new Rectangle(272, 272, 120, 120);
         return bounds;
     }
 }

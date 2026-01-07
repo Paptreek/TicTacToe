@@ -71,6 +71,7 @@ namespace TicTacToe
             {
                 _tokensX.Add(new TokenX(_textureAtlas, new Vector2(_mouseState.Position.X, _mouseState.Position.Y)));
                 isTurnX = false;
+                Debug.WriteLine("test");
             }
             else if (_mouseInfo.WasButtonJustPressed(MouseButton.Left) && isTurnX == false)
             {
@@ -83,13 +84,21 @@ namespace TicTacToe
                 Vector2 location = token.TokenPosition;
 
                 Rectangle tokenBounds = new Rectangle(
-                    (int)location.X,
-                    (int)location.Y,
-                    (int)_xTokenSourceRectangle.Width,
-                    (int)_xTokenSourceRectangle.Height
+                        (int)token.TokenPosition.X - 16,
+                        (int)token.TokenPosition.Y - 16,
+                        (int)_xTokenSourceRectangle.Width * 2,
+                        (int)_xTokenSourceRectangle.Height * 2
                 );
 
-                //Debug.WriteLine(tokenBounds);
+                if (tokenBounds.Intersects(_gameBoard.GetTopLeft()))
+                {
+                    Debug.WriteLine($"X is at Top Left");
+                }
+
+                if (tokenBounds.Intersects(_gameBoard.GetTopMiddle()))
+                {
+                    Debug.WriteLine($"X is at Top Middle");
+                }
             }
 
             foreach (TokenO token in _tokensO)
@@ -97,16 +106,20 @@ namespace TicTacToe
                 Vector2 location = token.TokenPosition;
 
                 Rectangle tokenBounds = new Rectangle(
-                    (int)location.X,
-                    (int)location.Y,
-                    (int)_xTokenSourceRectangle.Width,
-                    (int)_xTokenSourceRectangle.Height
+                        (int)token.TokenPosition.X - 16,
+                        (int)token.TokenPosition.Y - 16,
+                        (int)_oTokenSourceRectangle.Width * 2,
+                        (int)_oTokenSourceRectangle.Height * 2
                 );
 
-                //Debug.WriteLine(tokenBounds);
                 if (tokenBounds.Intersects(_gameBoard.GetTopLeft()))
                 {
-                    Debug.WriteLine($"Intersecting!");
+                    Debug.WriteLine($"O is at Top Left");
+                }
+
+                if (tokenBounds.Intersects(_gameBoard.GetTopMiddle()))
+                {
+                    Debug.WriteLine($"O is at Top Middle");
                 }
             }
 
@@ -123,6 +136,9 @@ namespace TicTacToe
 
             _gameBoard.Draw(_spriteBatch, new Vector2(_gameBoardSourceRect.Width, _gameBoardSourceRect.Height) * 0.5f);
 
+            //DrawBoardRectangleTest();
+            //DrawTokenRectangleTest();
+
             foreach (TokenX token in _tokensX)
             {
                 token.Draw(_spriteBatch, _xTokenSourceRectangle, new Vector2(8, 8));
@@ -137,6 +153,40 @@ namespace TicTacToe
 
 
             base.Draw(gameTime);
+        }
+
+        public void DrawBoardRectangleTest()
+        {
+            Texture2D texture;
+
+            texture = new Texture2D(GraphicsDevice, 1, 1);
+            texture.SetData(new Color[] { Color.Snow });
+
+            _spriteBatch.Draw(
+                texture,
+                new Rectangle(272, 272, 120, 120),
+                Color.White
+            );
+        }
+
+        public void DrawTokenRectangleTest()
+        {
+            Texture2D texture;
+
+            texture = new Texture2D(GraphicsDevice, 1, 1);
+            texture.SetData(new Color[] { Color.Snow });
+
+            foreach (TokenO token in _tokensO)
+            {
+                _spriteBatch.Draw(
+                    texture,
+                    new Rectangle(
+                        (int)token.TokenPosition.X - 16,
+                        (int)token.TokenPosition.Y - 16,
+                        (int)_oTokenSourceRectangle.Width * 2,
+                        (int)_oTokenSourceRectangle.Height * 2),
+                    Color.White);
+            }
         }
     }
 }
