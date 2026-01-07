@@ -23,4 +23,9 @@ public class TokenO
     {
         spriteBatch.Draw(_tokenTexture, TokenPosition, tokenSource, _tokenColor, _tokenRotation, tokenOrigin, _tokenScale, _tokenEffects, _tokenLayerDepth);
     }
+
+    public void DrawOnBoard(SpriteBatch spriteBatch, Rectangle tokenSource, Vector2 tokenOrigin)
+    {
+        spriteBatch.Draw(_tokenTexture, TokenPosition, tokenSource, _tokenColor, _tokenRotation, tokenOrigin, _tokenScale, _tokenEffects, _tokenLayerDepth);
+    }
 }

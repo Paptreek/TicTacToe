@@ -14,6 +14,18 @@ public class GameBoard
     public Vector2 BoardPosition { get; private set; }
     public Rectangle BoardSource { get; private set; }
 
+    public bool IsTopLeftTaken { get; set; }
+    public bool IsTopMiddleTaken { get; set; }
+    public bool IsTopRightTaken { get; set; }
+
+    public bool IsTopLeftPlayedByX { get; set; }
+    public bool IsTopLeftPlayedByO { get; set; }
+    public bool IsTopMiddlePlayedByX { get; set; }
+    public bool IsTopMiddlePlayedByO { get; set; }
+    public bool IsTopRightPlayedByX { get; set; }
+    public bool IsTopRightPlayedByO { get; set; }
+
+
     public GameBoard(Texture2D boardTexture, Vector2 boardPosition, Rectangle boardSource)
     {
         _boardTexture = boardTexture;
@@ -78,5 +90,20 @@ public class GameBoard
     {
         Rectangle bounds = new Rectangle(272, 272, 120, 120);
         return bounds;
+    }
+
+    public Vector2 GetTopLeftLocation()
+    {
+        return new Vector2(GetTopLeft().X + 60, GetTopLeft().Y + 64);
+    }
+
+    public Vector2 GetTopMiddleLocation()
+    {
+        return new Vector2(GetTopMiddle().X + 56, GetTopMiddle().Y + 64);
+    }
+
+    public Vector2 GetTopRightLocation()
+    {
+        return new Vector2(GetTopRight().X + 60, GetTopRight().Y + 64);
     }
 }
