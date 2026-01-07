@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace TicTacToe;
 
-public class TokenX
+public class Token
 {
     private Texture2D _tokenTexture;
     private Color _tokenColor = Color.White;
@@ -13,7 +13,7 @@ public class TokenX
     private float _tokenLayerDepth = 0.0f;
     public Vector2 TokenPosition { get; private set; }
 
-    public TokenX(Texture2D tokenTexture, Vector2 tokenPosition)
+    public Token(Texture2D tokenTexture, Vector2 tokenPosition)
     {
         _tokenTexture = tokenTexture;
         TokenPosition = tokenPosition;

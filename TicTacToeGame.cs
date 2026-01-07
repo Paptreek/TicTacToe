@@ -20,8 +20,8 @@ namespace TicTacToe
         private SpriteBatch _spriteBatch;
         private Texture2D _textureAtlas;
         private GameBoard _gameBoard;
-        private List<TokenX> _xTokens = new();
-        private List<TokenO> _oTokens = new();
+        private List<Token> _xTokens = new();
+        private List<Token> _oTokens = new();
         private Rectangle _gameBoardSourceRect = new Rectangle(0, 0, 48, 48);
         private Rectangle _xTokenSourceRectangle = new Rectangle(48, 0, 16, 16);
         private Rectangle _oTokenSourceRectangle = new Rectangle(64, 0, 16, 16);
@@ -70,39 +70,6 @@ namespace TicTacToe
 
             GetPlayerChoice();
 
-            //if (_mouseInfo.WasButtonJustPressed(MouseButton.Left) && isTurnX == true)
-            //{
-            //    _xTokens.Add(new TokenX(_textureAtlas, new Vector2(_mouseState.Position.X, _mouseState.Position.Y)));
-            //    isTurnX = false;
-            //}
-            //else if (_mouseInfo.WasButtonJustPressed(MouseButton.Left) && isTurnX == false)
-            //{
-            //    _oTokens.Add(new TokenO(_textureAtlas, new Vector2(_mouseState.Position.X, _mouseState.Position.Y)));
-            //    isTurnX = true;
-            //}
-
-            //foreach (TokenX token in _xTokens)
-            //{
-            //    Vector2 location = token.TokenPosition;
-
-            //    Rectangle tokenBounds = new Rectangle(
-            //            (int)token.TokenPosition.X - 16,
-            //            (int)token.TokenPosition.Y - 16,
-            //            (int)_xTokenSourceRectangle.Width * 2,
-            //            (int)_xTokenSourceRectangle.Height * 2
-            //    );
-
-            //    if (tokenBounds.Intersects(_gameBoard.GetTopLeft()))
-            //    {
-            //        //token.DrawOnBoard(_spriteBatch, _gameBoard.GetTopLeftLocation(), _xTokenSourceRectangle, new Vector2(8, 8));
-            //    }
-
-            //    if (tokenBounds.Intersects(_gameBoard.GetTopMiddle()))
-            //    {
-            //        //token.DrawOnBoard(_spriteBatch, _gameBoard.GetTopMiddleLocation(), _xTokenSourceRectangle, new Vector2(8, 8));
-            //    }
-            //}
-
             base.Update(gameTime);
         }
 
@@ -116,62 +83,18 @@ namespace TicTacToe
 
             _gameBoard.Draw(_spriteBatch, new Vector2(_gameBoardSourceRect.Width, _gameBoardSourceRect.Height) * 0.5f);
 
-            foreach (TokenX token in _xTokens)
+            foreach (Token token in _xTokens)
             {
                 token.DrawOnBoard(_spriteBatch, _xTokenSourceRectangle, new Vector2(8, 8));
             }
 
-            foreach (TokenO token in _oTokens)
+            foreach (Token token in _oTokens)
             {
                 token.DrawOnBoard(_spriteBatch, _oTokenSourceRectangle, new Vector2(8, 8));
             }
 
             //DrawBoardRectangleTest();
             //DrawTokenRectangleTest();
-
-            //foreach (TokenX token in _xTokens)
-            //{
-            //    Vector2 location = token.TokenPosition;
-
-            //    Rectangle tokenBounds = new Rectangle(
-            //            (int)token.TokenPosition.X - 16,
-            //            (int)token.TokenPosition.Y - 16,
-            //            (int)_xTokenSourceRectangle.Width * 2,
-            //            (int)_xTokenSourceRectangle.Height * 2
-            //    );
-
-            //    if (tokenBounds.Intersects(_gameBoard.GetTopLeft()))
-            //    {
-            //        token.DrawOnBoard(_spriteBatch, _gameBoard.GetTopLeftLocation(), _xTokenSourceRectangle, new Vector2(8, 8));
-            //    }
-
-            //    if (tokenBounds.Intersects(_gameBoard.GetTopMiddle()))
-            //    {
-            //        token.DrawOnBoard(_spriteBatch, _gameBoard.GetTopMiddleLocation(), _xTokenSourceRectangle, new Vector2(8, 8));
-            //    }
-            //}
-
-            //foreach (TokenO token in _oTokens)
-            //{
-            //    Vector2 location = token.TokenPosition;
-
-            //    Rectangle tokenBounds = new Rectangle(
-            //            (int)token.TokenPosition.X - 16,
-            //            (int)token.TokenPosition.Y - 16,
-            //            (int)_oTokenSourceRectangle.Width * 2,
-            //            (int)_oTokenSourceRectangle.Height * 2
-            //    );
-
-            //    if (tokenBounds.Intersects(_gameBoard.GetTopLeft()))
-            //    {
-            //        token.DrawOnBoard(_spriteBatch, _gameBoard.GetTopLeftLocation(), _oTokenSourceRectangle, new Vector2(8, 8));
-            //    }
-
-            //    if (tokenBounds.Intersects(_gameBoard.GetTopMiddle()))
-            //    {
-            //        token.DrawOnBoard(_spriteBatch, _gameBoard.GetTopMiddleLocation(), _oTokenSourceRectangle, new Vector2(8, 8));
-            //    }
-            //}
 
             _spriteBatch.End();
 
@@ -200,7 +123,7 @@ namespace TicTacToe
         //    texture = new Texture2D(GraphicsDevice, 1, 1);
         //    texture.SetData(new Color[] { Color.Snow });
 
-        //    foreach (TokenO token in _oTokens)
+        //    foreach (Token token in _oTokens)
         //    {
         //        _spriteBatch.Draw(
         //            texture,
@@ -222,49 +145,61 @@ namespace TicTacToe
                     (int)_xTokenSourceRectangle.Height * 2
             );
 
-            if (_mouseInfo.WasButtonJustPressed(MouseButton.Left) && clickArea.Intersects(_gameBoard.GetTopLeft()) && _gameBoard.IsTopLeftTaken == false && isTurnX == true)
+            if (_mouseInfo.WasButtonJustPressed(MouseButton.Left))
             {
-                _xTokens.Add(new TokenX(_textureAtlas, new Vector2(_gameBoard.GetTopLeftLocation().X, _gameBoard.GetTopLeftLocation().Y)));
-                isTurnX = false;
-                _gameBoard.IsTopLeftTaken = true;
-                _gameBoard.IsTopLeftPlayedByX = true;
-            }
-            else if (_mouseInfo.WasButtonJustPressed(MouseButton.Left) && clickArea.Intersects(_gameBoard.GetTopLeft()) && _gameBoard.IsTopLeftTaken == false && isTurnX == false)
-            {
-                _oTokens.Add(new TokenO(_textureAtlas, new Vector2(_gameBoard.GetTopLeftLocation().X, _gameBoard.GetTopLeftLocation().Y)));
-                isTurnX = true;
-                _gameBoard.IsTopLeftTaken = true;
-                _gameBoard.IsTopLeftPlayedByO = true;
-            }
+                if (clickArea.Intersects(_gameBoard.GetTopLeft()) && _gameBoard.IsTopLeftTaken == false)
+                {
+                    if (isTurnX == true)
+                    {
+                        _xTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetTopLeftLocation().X, _gameBoard.GetTopLeftLocation().Y)));
+                        isTurnX = false;
+                        _gameBoard.IsTopLeftPlayedByX = true;
+                    }
+                    else
+                    {
+                        _oTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetTopLeftLocation().X, _gameBoard.GetTopLeftLocation().Y)));
+                        isTurnX = true;
+                        _gameBoard.IsTopLeftPlayedByO = true;
+                    }
 
-            if (_mouseInfo.WasButtonJustPressed(MouseButton.Left) && clickArea.Intersects(_gameBoard.GetTopMiddle()) && _gameBoard.IsTopMiddleTaken == false && isTurnX == true)
-            {
-                _xTokens.Add(new TokenX(_textureAtlas, new Vector2(_gameBoard.GetTopMiddleLocation().X, _gameBoard.GetTopMiddleLocation().Y)));
-                isTurnX = false;
-                _gameBoard.IsTopMiddleTaken = true;
-                _gameBoard.IsTopMiddlePlayedByX = true;
-            }
-            else if (_mouseInfo.WasButtonJustPressed(MouseButton.Left) && clickArea.Intersects(_gameBoard.GetTopMiddle()) && _gameBoard.IsTopMiddleTaken == false && isTurnX == false)
-            {
-                _oTokens.Add(new TokenO(_textureAtlas, new Vector2(_gameBoard.GetTopMiddleLocation().X, _gameBoard.GetTopMiddleLocation().Y)));
-                isTurnX = true;
-                _gameBoard.IsTopMiddleTaken = true;
-                _gameBoard.IsTopMiddlePlayedByO = true;
-            }
+                    _gameBoard.IsTopLeftTaken = true;
+                }
 
-            if (_mouseInfo.WasButtonJustPressed(MouseButton.Left) && clickArea.Intersects(_gameBoard.GetTopRight()) && _gameBoard.IsTopRightTaken == false && isTurnX == true)
-            {
-                _xTokens.Add(new TokenX(_textureAtlas, new Vector2(_gameBoard.GetTopRightLocation().X, _gameBoard.GetTopRightLocation().Y)));
-                isTurnX = false;
-                _gameBoard.IsTopRightTaken = true;
-                _gameBoard.IsTopRightPlayedByX = true;
-            }
-            else if (_mouseInfo.WasButtonJustPressed(MouseButton.Left) && clickArea.Intersects(_gameBoard.GetTopRight()) && _gameBoard.IsTopRightTaken == false && isTurnX == false)
-            {
-                _oTokens.Add(new TokenO(_textureAtlas, new Vector2(_gameBoard.GetTopRightLocation().X, _gameBoard.GetTopRightLocation().Y)));
-                isTurnX = true;
-                _gameBoard.IsTopRightTaken = true;
-                _gameBoard.IsTopRightPlayedByO = true;
+                if (clickArea.Intersects(_gameBoard.GetTopMiddle()) && _gameBoard.IsTopMiddleTaken == false)
+                {
+                    if (isTurnX == true)
+                    {
+                        _xTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetTopMiddleLocation().X, _gameBoard.GetTopMiddleLocation().Y)));
+                        isTurnX = false;
+                        _gameBoard.IsTopMiddlePlayedByX = true;
+                    }
+                    else
+                    {
+                        _oTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetTopMiddleLocation().X, _gameBoard.GetTopMiddleLocation().Y)));
+                        isTurnX = true;
+                        _gameBoard.IsTopMiddlePlayedByO = true;
+                    }
+
+                    _gameBoard.IsTopMiddleTaken = true;
+                }
+
+                if (clickArea.Intersects(_gameBoard.GetTopRight()) && _gameBoard.IsTopRightTaken == false)
+                {
+                    if (isTurnX == true)
+                    {
+                        _xTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetTopRightLocation().X, _gameBoard.GetTopRightLocation().Y)));
+                        isTurnX = false;
+                        _gameBoard.IsTopRightPlayedByX = true;
+                    }
+                    else
+                    {
+                        _oTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetTopRightLocation().X, _gameBoard.GetTopRightLocation().Y)));
+                        isTurnX = true;
+                        _gameBoard.IsTopRightPlayedByO = true;
+                    }
+
+                    _gameBoard.IsTopRightTaken = true;
+                }
             }
         }
     }
