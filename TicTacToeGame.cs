@@ -7,7 +7,6 @@ using Gum.Forms;
 using MonoGameGum;
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Audio;
-using System.Net.Mime;
 
 namespace TicTacToe
 {
@@ -290,7 +289,7 @@ namespace TicTacToe
                 _topLeft == TopLeft.PlayedByX && _middle == Middle.PlayedByX && _bottomRight == BottomRight.PlayedByX ||
                 _topRight == TopRight.PlayedByX && _middle == Middle.PlayedByX && _bottomLeft == BottomLeft.PlayedByX)
             {
-                EndGame("X");
+                EndGame("SWORDS");
             }
             else if (_topLeft == TopLeft.PlayedByO && _topMiddle == TopMiddle.PlayedByO && _topRight == TopRight.PlayedByO ||
                 _left == Left.PlayedByO && _middle == Middle.PlayedByO && _right == Right.PlayedByO ||
@@ -301,7 +300,7 @@ namespace TicTacToe
                 _topLeft == TopLeft.PlayedByO && _middle == Middle.PlayedByO && _bottomRight == BottomRight.PlayedByO ||
                 _topRight == TopRight.PlayedByO && _middle == Middle.PlayedByO && _bottomLeft == BottomLeft.PlayedByO)
             {
-                EndGame("O");
+                EndGame("SHIELDS");
             }
             else if (_topLeft != TopLeft.Empty && _topMiddle != TopMiddle.Empty && _topRight != TopRight.Empty &&
                 _left != Left.Empty && _middle != Middle.Empty && _right != Right.Empty &&
@@ -313,9 +312,9 @@ namespace TicTacToe
 
         public void EndGame(string winner)
         {
-            if (winner == "X" || winner == "O")
+            if (winner == "SWORDS" || winner == "SHIELDS")
             {
-                Debug.WriteLine($"Player {winner} Wins!");
+                Debug.WriteLine($"{winner} WIN!");
             }
             else
             {
