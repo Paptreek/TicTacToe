@@ -5,10 +5,9 @@ using MonoGameLibrary.Input;
 using System.Collections.Generic;
 using Gum.Forms;
 using MonoGameGum;
-using System;
 using System.Diagnostics;
-using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
+using System.Net.Mime;
 
 namespace TicTacToe
 {
@@ -19,6 +18,7 @@ namespace TicTacToe
         private Texture2D _textureAtlas;
         private GameBoard _gameBoard;
         private MouseInfo _mouseInfo;
+        private SoundEffect _popSound;
         private readonly List<Token> _xTokens = [];
         private readonly List<Token> _oTokens = [];
         private MouseState _mouseState;
@@ -68,6 +68,8 @@ namespace TicTacToe
             _textureAtlas = Content.Load<Texture2D>("images/textures");
 
             _gameBoard = new GameBoard(_textureAtlas, new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height) * 0.5f, _gameBoardSourceRect);
+
+            _popSound = Content.Load<SoundEffect>("audio/pop");
         }
 
         protected override void Update(GameTime gameTime)
@@ -128,6 +130,8 @@ namespace TicTacToe
 
             if (_mouseInfo.WasButtonJustPressed(MouseButton.Left))
             {
+                _popSound.Play();
+
                 if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopLeft)) && _topLeft == TopLeft.Empty)
                 {
                     if (isTurnX == true)
