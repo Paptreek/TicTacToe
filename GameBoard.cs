@@ -98,110 +98,11 @@ public class GameBoard
             BoardLocation.Middle => new Vector2(_bounds[4].X + 56, _bounds[4].Y + 56),
             BoardLocation.Right  => new Vector2(_bounds[5].X + 60, _bounds[5].Y + 56),
             BoardLocation.BottomLeft   => new Vector2(_bounds[6].X + 60, _bounds[6].Y + 62),
-            BoardLocation.BottomMiddle => new Vector2(_bounds[6].X + 56, _bounds[6].Y + 62),
-            BoardLocation.BottomRight  => new Vector2(_bounds[6].X + 60, _bounds[6].Y + 62),
+            BoardLocation.BottomMiddle => new Vector2(_bounds[7].X + 56, _bounds[6].Y + 62),
+            BoardLocation.BottomRight  => new Vector2(_bounds[8].X + 60, _bounds[6].Y + 62),
         };
 
         return location;
-    }
-
-    public Rectangle GetTopLeft()
-    {
-        Rectangle bounds = new Rectangle(8, 8, 120, 120);
-        return bounds;
-    }
-
-    public Rectangle GetTopMiddle()
-    {
-        Rectangle bounds = new Rectangle(144, 8, 112, 120);
-        return bounds;
-    }
-
-    public Rectangle GetTopRight()
-    {
-        Rectangle bounds = new Rectangle(272, 8, 120, 120);
-        return bounds;
-    }
-
-    public Rectangle GetLeft()
-    {
-        Rectangle bounds = new Rectangle(8, 144, 120, 112);
-        return bounds;
-    }
-
-    public Rectangle GetMiddle()
-    {
-        Rectangle bounds = new Rectangle(144, 144, 112, 112);
-        return bounds;
-    }
-
-    public Rectangle GetRight()
-    {
-        Rectangle bounds = new Rectangle(272, 144, 120, 112);
-        return bounds;
-    }
-
-    public Rectangle GetBottomLeft()
-    {
-        Rectangle bounds = new Rectangle(8, 272, 120, 120);
-        return bounds;
-    }
-
-    public Rectangle GetBottomMiddle()
-    {
-        Rectangle bounds = new Rectangle(144, 272, 112, 120);
-        return bounds;
-    }
-
-    public Rectangle GetBottomRight()
-    {
-        Rectangle bounds = new Rectangle(272, 272, 120, 120);
-        return bounds;
-    }
-
-    public Vector2 GetTopLeftLocation()
-    {
-        return new Vector2(GetTopLeft().X + 60, GetTopLeft().Y + 62);
-    }
-
-    public Vector2 GetTopMiddleLocation()
-    {
-        return new Vector2(GetTopMiddle().X + 56, GetTopMiddle().Y + 62);
-    }
-
-    public Vector2 GetTopRightLocation()
-    {
-        return new Vector2(GetTopRight().X + 60, GetTopRight().Y + 62);
-    }
-
-    public Vector2 GetLeftLocation()
-    {
-        return new Vector2(GetLeft().X + 60, GetLeft().Y + 56);
-    }
-
-    public Vector2 GetMiddleLocation()
-    {
-        return new Vector2(GetMiddle().X + 56, GetMiddle().Y + 56);
-    }
-
-    public Vector2 GetRightLocation()
-    {
-        return new Vector2(GetRight().X + 60, GetRight().Y + 56);
-    }
-
-    public Vector2 GetBottomLeftLocation()
-    {
-        return new Vector2(GetBottomLeft().X + 60, GetBottomLeft().Y + 62);
-    }
-
-    public Vector2 GetBottomMiddleLocation()
-    {
-        return new Vector2(GetBottomMiddle().X + 56, GetBottomMiddle().Y + 62);
-    }
-
-    public Vector2 GetBottomRightLocation()
-    {
-        return new Vector2(GetBottomRight().X + 60, GetBottomRight().Y + 62);
     }
 }
 

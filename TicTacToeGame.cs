@@ -211,18 +211,18 @@ namespace TicTacToe
 
                     _gameBoard.IsLeftTaken = true;
                 }
-                // left off here with refactor
-                if (clickArea.Intersects(_gameBoard.GetMiddle()) && _gameBoard.IsMiddleTaken == false)
+
+                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Middle)) && _gameBoard.IsMiddleTaken == false)
                 {
                     if (isTurnX == true)
                     {
-                        _xTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetMiddleLocation().X, _gameBoard.GetMiddleLocation().Y)));
+                        _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Middle)));
                         isTurnX = false;
                         _gameBoard.IsTopLeftPlayedByX = true;
                     }
                     else
                     {
-                        _oTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetMiddleLocation().X, _gameBoard.GetMiddleLocation().Y)));
+                        _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Middle)));
                         isTurnX = true;
                         _gameBoard.IsMiddlePlayedByO = true;
                     }
@@ -230,17 +230,17 @@ namespace TicTacToe
                     _gameBoard.IsMiddleTaken = true;
                 }
 
-                if (clickArea.Intersects(_gameBoard.GetRight()) && _gameBoard.IsRightTaken == false)
+                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Right)) && _gameBoard.IsRightTaken == false)
                 {
                     if (isTurnX == true)
                     {
-                        _xTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetRightLocation().X, _gameBoard.GetRightLocation().Y)));
+                        _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Right)));
                         isTurnX = false;
                         _gameBoard.IsTopLeftPlayedByX = true;
                     }
                     else
                     {
-                        _oTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetRightLocation().X, _gameBoard.GetRightLocation().Y)));
+                        _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Right)));
                         isTurnX = true;
                         _gameBoard.IsRightPlayedByO = true;
                     }
@@ -248,17 +248,17 @@ namespace TicTacToe
                     _gameBoard.IsRightTaken = true;
                 }
 
-                if (clickArea.Intersects(_gameBoard.GetBottomLeft()) && _gameBoard.IsBottomLeftTaken == false)
+                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomLeft)) && _gameBoard.IsBottomLeftTaken == false)
                 {
                     if (isTurnX == true)
                     {
-                        _xTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetBottomLeftLocation().X, _gameBoard.GetBottomLeftLocation().Y)));
+                        _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomLeft)));
                         isTurnX = false;
                         _gameBoard.IsBottomLeftPlayedByX = true;
                     }
                     else
                     {
-                        _oTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetBottomLeftLocation().X, _gameBoard.GetBottomLeftLocation().Y)));
+                        _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomLeft)));
                         isTurnX = true;
                         _gameBoard.IsBottomLeftPlayedByO = true;
                     }
@@ -266,17 +266,17 @@ namespace TicTacToe
                     _gameBoard.IsBottomLeftTaken = true;
                 }
 
-                if (clickArea.Intersects(_gameBoard.GetBottomMiddle()) && _gameBoard.IsBottomMiddleTaken == false)
+                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomMiddle)) && _gameBoard.IsBottomMiddleTaken == false)
                 {
                     if (isTurnX == true)
                     {
-                        _xTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetBottomMiddleLocation().X, _gameBoard.GetBottomMiddleLocation().Y)));
+                        _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomMiddle)));
                         isTurnX = false;
                         _gameBoard.IsBottomMiddlePlayedByX = true;
                     }
                     else
                     {
-                        _oTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetBottomMiddleLocation().X, _gameBoard.GetBottomMiddleLocation().Y)));
+                        _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomMiddle)));
                         isTurnX = true;
                         _gameBoard.IsBottomMiddlePlayedByO = true;
                     }
@@ -284,17 +284,17 @@ namespace TicTacToe
                     _gameBoard.IsBottomMiddleTaken = true;
                 }
 
-                if (clickArea.Intersects(_gameBoard.GetBottomRight()) && _gameBoard.IsBottomRightTaken == false)
+                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomRight)) && _gameBoard.IsBottomRightTaken == false)
                 {
                     if (isTurnX == true)
                     {
-                        _xTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetBottomRightLocation().X, _gameBoard.GetBottomRightLocation().Y)));
+                        _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomRight)));
                         isTurnX = false;
                         _gameBoard.IsBottomRightPlayedByX = true;
                     }
                     else
                     {
-                        _oTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetBottomRightLocation().X, _gameBoard.GetBottomRightLocation().Y)));
+                        _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomRight)));
                         isTurnX = true;
                         _gameBoard.IsBottomRightPlayedByO = true;
                     }
