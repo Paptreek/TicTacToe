@@ -7,6 +7,8 @@ using Gum.Forms;
 using MonoGameGum;
 using System;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace TicTacToe
 {
@@ -20,7 +22,7 @@ namespace TicTacToe
         private readonly List<Token> _xTokens = [];
         private readonly List<Token> _oTokens = [];
         private MouseState _mouseState;
-        
+
         private Rectangle _gameBoardSourceRect = new (0, 0, 48, 48);
         private Rectangle _xTokenSourceRectangle = new (48, 0, 16, 16);
         private Rectangle _oTokenSourceRectangle = new (64, 0, 16, 16);
@@ -114,40 +116,7 @@ namespace TicTacToe
             base.Draw(gameTime);
         }
 
-        public void DrawBoardRectangleTest()
-        {
-            Texture2D texture;
-
-            texture = new Texture2D(GraphicsDevice, 1, 1);
-            texture.SetData([Color.Snow]);
-
-            _spriteBatch.Draw(
-                texture,
-                new Rectangle(8, 8, 120, 120),
-                Color.White
-            );
-        }
-
-        public void DrawTokenRectangleTest()
-        {
-            Texture2D texture;
-
-            texture = new Texture2D(GraphicsDevice, 1, 1);
-            texture.SetData([Color.Snow]);
-
-            foreach (Token token in _oTokens)
-            {
-                _spriteBatch.Draw(
-                    texture,
-                    new Rectangle(
-                        (int)token.TokenPosition.X - 4,
-                        (int)token.TokenPosition.Y - 4,
-                        (int)_oTokenSourceRectangle.Width - 8,
-                        (int)_oTokenSourceRectangle.Height - 8),
-                    Color.White);
-            }
-        }
-
+        // I'm sure this can be shortened, but haven't spent enough time to come up with a better solution. Does the job for now.
         public void GetPlayerChoice()
         {
             Rectangle clickArea = new(
@@ -304,7 +273,8 @@ namespace TicTacToe
                 }
             }
         }
-
+        
+        // ugh... this was the first working solution that came to mind. not a fan, though. "felt cute, might delete later"
         public void CheckForWin()
         {
             if (_topLeft == TopLeft.PlayedByX && _topMiddle == TopMiddle.PlayedByX && _topRight == TopRight.PlayedByX ||
@@ -335,5 +305,39 @@ namespace TicTacToe
         {
             Debug.WriteLine($"Player {winner} Wins!");
         }
+
+        //public void DrawBoardRectangleTest()
+        //{
+        //    Texture2D texture;
+
+        //    texture = new Texture2D(GraphicsDevice, 1, 1);
+        //    texture.SetData([Color.Snow]);
+
+        //    _spriteBatch.Draw(
+        //        texture,
+        //        new Rectangle(8, 8, 120, 120),
+        //        Color.White
+        //    );
+        //}
+
+        //public void DrawTokenRectangleTest()
+        //{
+        //    Texture2D texture;
+
+        //    texture = new Texture2D(GraphicsDevice, 1, 1);
+        //    texture.SetData([Color.Snow]);
+
+        //    foreach (Token token in _oTokens)
+        //    {
+        //        _spriteBatch.Draw(
+        //            texture,
+        //            new Rectangle(
+        //                (int)token.TokenPosition.X - 4,
+        //                (int)token.TokenPosition.Y - 4,
+        //                (int)_oTokenSourceRectangle.Width - 8,
+        //                (int)_oTokenSourceRectangle.Height - 8),
+        //            Color.White);
+        //    }
+        //}
     }
 }
