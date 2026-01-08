@@ -3,16 +3,16 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace TicTacToe;
 
-public class GameBoard
+public class GameBoard(Texture2D boardTexture, Vector2 boardPosition, Rectangle boardSource)
 {
-    private Texture2D _boardTexture;
+    private readonly Texture2D _boardTexture = boardTexture;
     private Color _boardColor = Color.White;
-    private float _boardRotation = 0.0f;
-    private float _boardScale = 8.0f;
-    private SpriteEffects _boardEffects = SpriteEffects.None;
-    private float _boardLayerDepth = 0.0f;
+    private readonly float _boardRotation = 0.0f;
+    private readonly float _boardScale = 8.0f;
+    private readonly SpriteEffects _boardEffects = SpriteEffects.None;
+    private readonly float _boardLayerDepth = 0.0f;
     
-    private Rectangle[] _bounds = [
+    private readonly Rectangle[] _bounds = [
         new Rectangle(8, 8, 120, 120),
         new Rectangle(144, 8, 112, 120),
         new Rectangle(272, 8, 120, 120),
@@ -24,15 +24,8 @@ public class GameBoard
         new Rectangle(272, 272, 120, 120)
     ];
 
-    public Vector2 BoardPosition { get; private set; }
-    public Rectangle BoardSource { get; private set; }
-
-    public GameBoard(Texture2D boardTexture, Vector2 boardPosition, Rectangle boardSource)
-    {
-        _boardTexture = boardTexture;
-        BoardSource = boardSource;
-        BoardPosition = boardPosition;
-    }
+    public Vector2 BoardPosition { get; private set; } = boardPosition;
+    public Rectangle BoardSource { get; private set; } = boardSource;
 
     public void Draw(SpriteBatch spriteBatch, Vector2 boardOrigin)
     {
@@ -51,7 +44,8 @@ public class GameBoard
             BoardLocation.Right  =>  _bounds[5],
             BoardLocation.BottomLeft   => _bounds[6],
             BoardLocation.BottomMiddle => _bounds[7],
-            BoardLocation.BottomRight  => _bounds[8]
+            BoardLocation.BottomRight  => _bounds[8],
+            _ => _bounds[0]
         };
 
         return location;
@@ -70,6 +64,7 @@ public class GameBoard
             BoardLocation.BottomLeft   => new Vector2(_bounds[6].X + 60, _bounds[6].Y + 62),
             BoardLocation.BottomMiddle => new Vector2(_bounds[7].X + 56, _bounds[6].Y + 62),
             BoardLocation.BottomRight  => new Vector2(_bounds[8].X + 60, _bounds[6].Y + 62),
+            _ => Vector2.Zero
         };
 
         return location;

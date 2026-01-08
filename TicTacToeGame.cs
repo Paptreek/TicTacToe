@@ -10,19 +10,21 @@ namespace TicTacToe
 {
     public class TicTacToeGame : Game
     {
-        private GraphicsDeviceManager _graphics;
+        private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D _textureAtlas;
         private GameBoard _gameBoard;
-        private List<Token> _xTokens = new();
-        private List<Token> _oTokens = new();
-        private Rectangle _gameBoardSourceRect = new Rectangle(0, 0, 48, 48);
-        private Rectangle _xTokenSourceRectangle = new Rectangle(48, 0, 16, 16);
-        private Rectangle _oTokenSourceRectangle = new Rectangle(64, 0, 16, 16);
-        private MouseState _mouseState;
         private MouseInfo _mouseInfo;
+        private readonly List<Token> _xTokens = [];
+        private readonly List<Token> _oTokens = [];
+        private MouseState _mouseState;
+        
+        private Rectangle _gameBoardSourceRect = new (0, 0, 48, 48);
+        private Rectangle _xTokenSourceRectangle = new (48, 0, 16, 16);
+        private Rectangle _oTokenSourceRectangle = new (64, 0, 16, 16);
+        
         private bool isTurnX = true;
-
+        
         private TopLeft _topLeft;
         private TopMiddle _topMiddle;
         private TopRight _topRight;
@@ -35,9 +37,12 @@ namespace TicTacToe
 
         public TicTacToeGame()
         {
-            _graphics = new GraphicsDeviceManager(this);
-            _graphics.PreferredBackBufferWidth = 400;
-            _graphics.PreferredBackBufferHeight = 400;
+            _graphics = new GraphicsDeviceManager(this)
+            {
+                PreferredBackBufferWidth = 400,
+                PreferredBackBufferHeight = 400
+            };
+
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -110,7 +115,7 @@ namespace TicTacToe
             Texture2D texture;
 
             texture = new Texture2D(GraphicsDevice, 1, 1);
-            texture.SetData(new Color[] { Color.Snow });
+            texture.SetData([Color.Snow]);
 
             _spriteBatch.Draw(
                 texture,
@@ -124,7 +129,7 @@ namespace TicTacToe
             Texture2D texture;
 
             texture = new Texture2D(GraphicsDevice, 1, 1);
-            texture.SetData(new Color[] { Color.Snow });
+            texture.SetData([Color.Snow]);
 
             foreach (Token token in _oTokens)
             {
@@ -141,7 +146,7 @@ namespace TicTacToe
 
         public void GetPlayerChoice()
         {
-            Rectangle clickArea = new Rectangle(
+            Rectangle clickArea = new(
                     (int)_mouseState.Position.X - 4,
                     (int)_mouseState.Position.Y - 4,
                     (int)_xTokenSourceRectangle.Width - 8,
