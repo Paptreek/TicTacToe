@@ -26,36 +26,6 @@ public class GameBoard
 
     public Vector2 BoardPosition { get; private set; }
     public Rectangle BoardSource { get; private set; }
-    public bool IsTopLeftTaken { get; set; }
-    public bool IsTopMiddleTaken { get; set; }
-    public bool IsTopRightTaken { get; set; }
-    public bool IsLeftTaken { get; set; }
-    public bool IsMiddleTaken { get; set; }
-    public bool IsRightTaken { get; set; }
-    public bool IsBottomLeftTaken { get; set; }
-    public bool IsBottomMiddleTaken { get; set; }
-    public bool IsBottomRightTaken { get; set; }
-
-    public bool IsTopLeftPlayedByX { get; set; }
-    public bool IsTopMiddlePlayedByX { get; set; }
-    public bool IsTopRightPlayedByX { get; set; }
-    public bool IsLeftPlayedByX { get; set; }
-    public bool IsMiddlePlayedByX { get; set; }
-    public bool IsRightPlayedByX { get; set; }
-    public bool IsBottomLeftPlayedByX { get; set; }
-    public bool IsBottomMiddlePlayedByX { get; set; }
-    public bool IsBottomRightPlayedByX { get; set; }
-
-    public bool IsTopLeftPlayedByO { get; set; }
-    public bool IsTopMiddlePlayedByO { get; set; }
-    public bool IsTopRightPlayedByO { get; set; }
-    public bool IsLeftPlayedByO { get; set; }
-    public bool IsMiddlePlayedByO { get; set; }
-    public bool IsRightPlayedByO { get; set; }
-    public bool IsBottomLeftPlayedByO { get; set; }
-    public bool IsBottomMiddlePlayedByO { get; set; }
-    public bool IsBottomRightPlayedByO { get; set; }
-
 
     public GameBoard(Texture2D boardTexture, Vector2 boardPosition, Rectangle boardSource)
     {
@@ -107,3 +77,13 @@ public class GameBoard
 }
 
 public enum BoardLocation { TopLeft, TopMiddle, TopRight, Left, Middle, Right, BottomLeft, BottomMiddle, BottomRight }
+
+public enum TopLeft { Empty, PlayedByX, PlayedByO }
+public enum TopMiddle { Empty, PlayedByX, PlayedByO }
+public enum TopRight { Empty, PlayedByX, PlayedByO }
+public enum Left { Empty, PlayedByX, PlayedByO }
+public enum Middle { Empty, PlayedByX, PlayedByO }
+public enum Right { Empty, PlayedByX, PlayedByO }
+public enum BottomLeft { Empty, PlayedByX, PlayedByO }
+public enum BottomMiddle { Empty, PlayedByX, PlayedByO }
+public enum BottomRight { Empty, PlayedByX, PlayedByO }

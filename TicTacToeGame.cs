@@ -23,6 +23,16 @@ namespace TicTacToe
         private MouseInfo _mouseInfo;
         private bool isTurnX = true;
 
+        private TopLeft _topLeft;
+        private TopMiddle _topMiddle;
+        private TopRight _topRight;
+        private Left _left;
+        private Middle _middle;
+        private Right _right;
+        private BottomLeft _bottomLeft;
+        private BottomMiddle _bottomMiddle;
+        private BottomRight _bottomRight;
+
         public TicTacToeGame()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -140,166 +150,148 @@ namespace TicTacToe
 
             if (_mouseInfo.WasButtonJustPressed(MouseButton.Left))
             {
-                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopLeft)) && _gameBoard.IsTopLeftTaken == false)
+                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopLeft)) && _topLeft == TopLeft.Empty)
                 {
                     if (isTurnX == true)
                     {
                         _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopLeft)));
                         isTurnX = false;
-                        _gameBoard.IsTopLeftPlayedByX = true;
+                        _topLeft = TopLeft.PlayedByX;
                     }
                     else
                     {
                         _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopLeft)));
                         isTurnX = true;
-                        _gameBoard.IsTopLeftPlayedByO = true;
+                        _topLeft = TopLeft.PlayedByO;
                     }
-
-                    _gameBoard.IsTopLeftTaken = true;
                 }
 
-                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopMiddle)) && _gameBoard.IsTopMiddleTaken == false)
+                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopMiddle)) && _topMiddle == TopMiddle.Empty)
                 {
                     if (isTurnX == true)
                     {
                         _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopMiddle)));
                         isTurnX = false;
-                        _gameBoard.IsTopMiddlePlayedByX = true;
+                        _topMiddle = TopMiddle.PlayedByX;
                     }
                     else
                     {
                         _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopMiddle)));
                         isTurnX = true;
-                        _gameBoard.IsTopMiddlePlayedByO = true;
+                        _topMiddle = TopMiddle.PlayedByO;
                     }
-
-                    _gameBoard.IsTopMiddleTaken = true;
                 }
 
-                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopRight)) && _gameBoard.IsTopRightTaken == false)
+                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopRight)) && _topRight == TopRight.Empty)
                 {
                     if (isTurnX == true)
                     {
                         _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopRight)));
                         isTurnX = false;
-                        _gameBoard.IsTopRightPlayedByX = true;
+                        _topRight = TopRight.PlayedByX;
                     }
                     else
                     {
                         _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopRight)));
                         isTurnX = true;
-                        _gameBoard.IsTopRightPlayedByO = true;
+                        _topRight = TopRight.PlayedByO;
                     }
-
-                    _gameBoard.IsTopRightTaken = true;
                 }
 
-                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Left)) && _gameBoard.IsLeftTaken == false)
+                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Left)) && _left == Left.Empty)
                 {
                     if (isTurnX == true)
                     {
                         _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Left)));
                         isTurnX = false;
-                        _gameBoard.IsTopLeftPlayedByX = true;
+                        _left = Left.PlayedByX;
                     }
                     else
                     {
                         _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Left)));
                         isTurnX = true;
-                        _gameBoard.IsLeftPlayedByO = true;
+                        _left = Left.PlayedByO;
                     }
-
-                    _gameBoard.IsLeftTaken = true;
                 }
 
-                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Middle)) && _gameBoard.IsMiddleTaken == false)
+                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Middle)) && _middle == Middle.Empty)
                 {
                     if (isTurnX == true)
                     {
                         _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Middle)));
                         isTurnX = false;
-                        _gameBoard.IsTopLeftPlayedByX = true;
+                        _middle = Middle.PlayedByX;
                     }
                     else
                     {
                         _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Middle)));
                         isTurnX = true;
-                        _gameBoard.IsMiddlePlayedByO = true;
+                        _middle = Middle.PlayedByO;
                     }
-
-                    _gameBoard.IsMiddleTaken = true;
                 }
 
-                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Right)) && _gameBoard.IsRightTaken == false)
+                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Right)) && _right == Right.Empty)
                 {
                     if (isTurnX == true)
                     {
                         _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Right)));
                         isTurnX = false;
-                        _gameBoard.IsTopLeftPlayedByX = true;
+                        _right = Right.PlayedByX;
                     }
                     else
                     {
                         _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Right)));
                         isTurnX = true;
-                        _gameBoard.IsRightPlayedByO = true;
+                        _right = Right.PlayedByO;
                     }
-
-                    _gameBoard.IsRightTaken = true;
                 }
 
-                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomLeft)) && _gameBoard.IsBottomLeftTaken == false)
+                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomLeft)) && _bottomLeft == BottomLeft.Empty)
                 {
                     if (isTurnX == true)
                     {
                         _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomLeft)));
                         isTurnX = false;
-                        _gameBoard.IsBottomLeftPlayedByX = true;
+                        _bottomLeft = BottomLeft.PlayedByX;
                     }
                     else
                     {
                         _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomLeft)));
                         isTurnX = true;
-                        _gameBoard.IsBottomLeftPlayedByO = true;
+                        _bottomLeft = BottomLeft.PlayedByO;
                     }
-
-                    _gameBoard.IsBottomLeftTaken = true;
                 }
 
-                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomMiddle)) && _gameBoard.IsBottomMiddleTaken == false)
+                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomMiddle)) && _bottomMiddle == BottomMiddle.Empty)
                 {
                     if (isTurnX == true)
                     {
                         _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomMiddle)));
                         isTurnX = false;
-                        _gameBoard.IsBottomMiddlePlayedByX = true;
+                        _bottomMiddle = BottomMiddle.PlayedByX;
                     }
                     else
                     {
                         _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomMiddle)));
                         isTurnX = true;
-                        _gameBoard.IsBottomMiddlePlayedByO = true;
+                        _bottomMiddle = BottomMiddle.PlayedByO;
                     }
-
-                    _gameBoard.IsBottomMiddleTaken = true;
                 }
 
-                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomRight)) && _gameBoard.IsBottomRightTaken == false)
+                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomRight)) && _bottomRight == BottomRight.Empty)
                 {
                     if (isTurnX == true)
                     {
                         _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomRight)));
                         isTurnX = false;
-                        _gameBoard.IsBottomRightPlayedByX = true;
+                        _bottomRight = BottomRight.PlayedByX;
                     }
                     else
                     {
                         _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomRight)));
                         isTurnX = true;
-                        _gameBoard.IsBottomRightPlayedByO = true;
+                        _bottomRight = BottomRight.PlayedByO;
                     }
-
-                    _gameBoard.IsBottomRightTaken = true;
                 }
             }
         }
