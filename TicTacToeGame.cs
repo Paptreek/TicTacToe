@@ -4,13 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary.Input;
 using System.Collections.Generic;
 using Gum.Forms;
-using Gum.Forms.Controls;
-using MonoGameLibrary;
 using MonoGameGum;
-using MonoGameGum.GueDeriving;
-using System;
-using System.Diagnostics;
-using System.Transactions;
 
 namespace TicTacToe
 {
@@ -40,7 +34,6 @@ namespace TicTacToe
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             GumService.Default.Initialize(this, DefaultVisualsVersion.V3);
             GumService.Default.ContentLoader.XnaContentManager = Content;
 
@@ -147,17 +140,17 @@ namespace TicTacToe
 
             if (_mouseInfo.WasButtonJustPressed(MouseButton.Left))
             {
-                if (clickArea.Intersects(_gameBoard.GetTopLeft()) && _gameBoard.IsTopLeftTaken == false)
+                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopLeft)) && _gameBoard.IsTopLeftTaken == false)
                 {
                     if (isTurnX == true)
                     {
-                        _xTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetTopLeftLocation().X, _gameBoard.GetTopLeftLocation().Y)));
+                        _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopLeft)));
                         isTurnX = false;
                         _gameBoard.IsTopLeftPlayedByX = true;
                     }
                     else
                     {
-                        _oTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetTopLeftLocation().X, _gameBoard.GetTopLeftLocation().Y)));
+                        _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopLeft)));
                         isTurnX = true;
                         _gameBoard.IsTopLeftPlayedByO = true;
                     }
@@ -165,17 +158,17 @@ namespace TicTacToe
                     _gameBoard.IsTopLeftTaken = true;
                 }
 
-                if (clickArea.Intersects(_gameBoard.GetTopMiddle()) && _gameBoard.IsTopMiddleTaken == false)
+                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopMiddle)) && _gameBoard.IsTopMiddleTaken == false)
                 {
                     if (isTurnX == true)
                     {
-                        _xTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetTopMiddleLocation().X, _gameBoard.GetTopMiddleLocation().Y)));
+                        _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopMiddle)));
                         isTurnX = false;
                         _gameBoard.IsTopMiddlePlayedByX = true;
                     }
                     else
                     {
-                        _oTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetTopMiddleLocation().X, _gameBoard.GetTopMiddleLocation().Y)));
+                        _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopMiddle)));
                         isTurnX = true;
                         _gameBoard.IsTopMiddlePlayedByO = true;
                     }
@@ -183,17 +176,17 @@ namespace TicTacToe
                     _gameBoard.IsTopMiddleTaken = true;
                 }
 
-                if (clickArea.Intersects(_gameBoard.GetTopRight()) && _gameBoard.IsTopRightTaken == false)
+                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopRight)) && _gameBoard.IsTopRightTaken == false)
                 {
                     if (isTurnX == true)
                     {
-                        _xTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetTopRightLocation().X, _gameBoard.GetTopRightLocation().Y)));
+                        _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopRight)));
                         isTurnX = false;
                         _gameBoard.IsTopRightPlayedByX = true;
                     }
                     else
                     {
-                        _oTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetTopRightLocation().X, _gameBoard.GetTopRightLocation().Y)));
+                        _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopRight)));
                         isTurnX = true;
                         _gameBoard.IsTopRightPlayedByO = true;
                     }
@@ -201,24 +194,24 @@ namespace TicTacToe
                     _gameBoard.IsTopRightTaken = true;
                 }
 
-                if (clickArea.Intersects(_gameBoard.GetLeft()) && _gameBoard.IsLeftTaken == false)
+                if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Left)) && _gameBoard.IsLeftTaken == false)
                 {
                     if (isTurnX == true)
                     {
-                        _xTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetLeftLocation().X, _gameBoard.GetLeftLocation().Y)));
+                        _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Left)));
                         isTurnX = false;
                         _gameBoard.IsTopLeftPlayedByX = true;
                     }
                     else
                     {
-                        _oTokens.Add(new Token(_textureAtlas, new Vector2(_gameBoard.GetLeftLocation().X, _gameBoard.GetLeftLocation().Y)));
+                        _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Left)));
                         isTurnX = true;
                         _gameBoard.IsLeftPlayedByO = true;
                     }
 
                     _gameBoard.IsLeftTaken = true;
                 }
-
+                // left off here with refactor
                 if (clickArea.Intersects(_gameBoard.GetMiddle()) && _gameBoard.IsMiddleTaken == false)
                 {
                     if (isTurnX == true)
@@ -309,6 +302,11 @@ namespace TicTacToe
                     _gameBoard.IsBottomRightTaken = true;
                 }
             }
+        }
+
+        public void CheckForWin()
+        {
+
         }
     }
 }
