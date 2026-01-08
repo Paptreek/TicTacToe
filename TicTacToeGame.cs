@@ -5,6 +5,8 @@ using MonoGameLibrary.Input;
 using System.Collections.Generic;
 using Gum.Forms;
 using MonoGameGum;
+using System;
+using System.Diagnostics;
 
 namespace TicTacToe
 {
@@ -77,6 +79,8 @@ namespace TicTacToe
             GumService.Default.Update(gameTime);
 
             GetPlayerChoice();
+
+            CheckForWin();
 
             base.Update(gameTime);
         }
@@ -303,7 +307,33 @@ namespace TicTacToe
 
         public void CheckForWin()
         {
+            if (_topLeft == TopLeft.PlayedByX && _topMiddle == TopMiddle.PlayedByX && _topRight == TopRight.PlayedByX ||
+                _left == Left.PlayedByX && _middle == Middle.PlayedByX && _right == Right.PlayedByX ||
+                _bottomLeft == BottomLeft.PlayedByX && _bottomMiddle == BottomMiddle.PlayedByX && _bottomRight == BottomRight.PlayedByX ||
+                _topLeft == TopLeft.PlayedByX && _left == Left.PlayedByX && _bottomLeft == BottomLeft.PlayedByX ||
+                _topMiddle == TopMiddle.PlayedByX && _middle == Middle.PlayedByX && _bottomMiddle == BottomMiddle.PlayedByX ||
+                _topRight == TopRight.PlayedByX && _right == Right.PlayedByX && _bottomRight == BottomRight.PlayedByX ||
+                _topLeft == TopLeft.PlayedByX && _middle == Middle.PlayedByX && _bottomRight == BottomRight.PlayedByX ||
+                _topRight == TopRight.PlayedByX && _middle == Middle.PlayedByX && _bottomLeft == BottomLeft.PlayedByX)
+            {
+                EndGame("X");
+            }
+            else if (_topLeft == TopLeft.PlayedByO && _topMiddle == TopMiddle.PlayedByO && _topRight == TopRight.PlayedByO ||
+                _left == Left.PlayedByO && _middle == Middle.PlayedByO && _right == Right.PlayedByO ||
+                _bottomLeft == BottomLeft.PlayedByO && _bottomMiddle == BottomMiddle.PlayedByO && _bottomRight == BottomRight.PlayedByO ||
+                _topLeft == TopLeft.PlayedByO && _left == Left.PlayedByO && _bottomLeft == BottomLeft.PlayedByO ||
+                _topMiddle == TopMiddle.PlayedByO && _middle == Middle.PlayedByO && _bottomMiddle == BottomMiddle.PlayedByO ||
+                _topRight == TopRight.PlayedByO && _right == Right.PlayedByO && _bottomRight == BottomRight.PlayedByO ||
+                _topLeft == TopLeft.PlayedByO && _middle == Middle.PlayedByO && _bottomRight == BottomRight.PlayedByO ||
+                _topRight == TopRight.PlayedByO && _middle == Middle.PlayedByO && _bottomLeft == BottomLeft.PlayedByO)
+            {
+                EndGame("O");
+            }
+        }
 
+        public void EndGame(string winner)
+        {
+            Debug.WriteLine($"Player {winner} Wins!");
         }
     }
 }
