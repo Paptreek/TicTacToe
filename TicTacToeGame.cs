@@ -274,7 +274,7 @@ namespace TicTacToe
             }
         }
         
-        // ugh... this was the first working solution that came to mind. not a fan, though. "felt cute, might delete later"
+        // LOL I hate this, but it was the first working solution that came to mind. "felt cute, might delete later"
         public void CheckForWin()
         {
             if (_topLeft == TopLeft.PlayedByX && _topMiddle == TopMiddle.PlayedByX && _topRight == TopRight.PlayedByX ||
@@ -299,11 +299,24 @@ namespace TicTacToe
             {
                 EndGame("O");
             }
+            else if (_topLeft != TopLeft.Empty && _topMiddle != TopMiddle.Empty && _topRight != TopRight.Empty &&
+                _left != Left.Empty && _middle != Middle.Empty && _right != Right.Empty &&
+                _bottomLeft != BottomLeft.Empty && _bottomMiddle != BottomMiddle.Empty && _bottomRight != BottomRight.Empty)
+            {
+                EndGame("DRAW");
+            }
         }
 
         public void EndGame(string winner)
         {
-            Debug.WriteLine($"Player {winner} Wins!");
+            if (winner == "X" || winner == "O")
+            {
+                Debug.WriteLine($"Player {winner} Wins!");
+            }
+            else
+            {
+                Debug.WriteLine($"It's a draw!");
+            }
         }
 
         //public void DrawBoardRectangleTest()
