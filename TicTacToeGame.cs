@@ -1,12 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Gum.Forms;
+using Gum.Forms.Controls;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MonoGameLibrary.Input;
-using System.Collections.Generic;
-using Gum.Forms;
 using MonoGameGum;
 using System.Diagnostics;
-using Microsoft.Xna.Framework.Audio;
+using System.Collections.Generic;
 
 namespace TicTacToe
 {
@@ -54,6 +54,12 @@ namespace TicTacToe
         {
             GumService.Default.Initialize(this, DefaultVisualsVersion.V3);
             GumService.Default.ContentLoader.XnaContentManager = Content;
+            FrameworkElement.KeyboardsForUiControl.Add(GumService.Default.Keyboard);
+            
+            // Adjusting Gum UI to asset size (8x)
+            GumService.Default.CanvasWidth = GraphicsDevice.PresentationParameters.BackBufferWidth / 8.0f;
+            GumService.Default.CanvasHeight = GraphicsDevice.PresentationParameters.BackBufferHeight / 8.0f;
+            GumService.Default.Renderer.Camera.Zoom = 8.0f;
 
             _mouseInfo = new MouseInfo();
 

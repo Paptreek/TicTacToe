@@ -1,12 +1,12 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Input;
 
-namespace MonoGameLibrary.Input;
+namespace TicTacToe;
 
 public class MouseInfo
 {
     public MouseState PreviousState { get; private set; }
     public MouseState CurrentState { get; private set; }
+    public MouseButton MouseButton { get; private set; }
 
     public MouseInfo()
     {

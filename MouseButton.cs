@@ -1,4 +1,4 @@
-﻿namespace MonoGameLibrary.Input;
+﻿namespace TicTacToe;
 
 public enum MouseButton
 {
