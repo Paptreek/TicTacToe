@@ -19,6 +19,20 @@
 /processorParam:Quality=Best
 /build:audio/pop.wav
 
+#begin fonts/jacquard24_5x.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:fonts/jacquard24_5x.spritefont
+
+#begin fonts/jacquard24.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:fonts/jacquard24.spritefont
+
 #begin images/textures.png
 /importer:TextureImporter
 /processor:TextureProcessor
