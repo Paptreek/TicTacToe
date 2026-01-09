@@ -1,25 +1,27 @@
-﻿using Gum.Forms;
-using Gum.Forms.Controls;
+﻿using System.Diagnostics;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameGum;
-using System.Diagnostics;
-using System.Collections.Generic;
+using Gum.Forms;
+using Gum.Forms.Controls;
+using MonoGameLibrary;
+using MonoGameLibrary.Input;
 
 namespace TicTacToe
 {
-    public class TicTacToeGame : Game
+    public class TicTacToeGame : Core
     {
-        private readonly GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
         private Texture2D _textureAtlas;
         private GameBoard _gameBoard;
         private MouseInfo _mouseInfo;
         private SoundEffect _popSound;
+        
         private readonly List<Token> _xTokens = [];
         private readonly List<Token> _oTokens = [];
+        
         private MouseState _mouseState;
 
         private Rectangle _gameBoardSourceRect = new (0, 0, 48, 48);
@@ -38,16 +40,9 @@ namespace TicTacToe
         private BottomMiddle _bottomMiddle;
         private BottomRight _bottomRight;
 
-        public TicTacToeGame()
+        public TicTacToeGame() : base("Swords and Shields", 400, 400, false)
         {
-            _graphics = new GraphicsDeviceManager(this)
-            {
-                PreferredBackBufferWidth = 400,
-                PreferredBackBufferHeight = 400
-            };
 
-            Content.RootDirectory = "Content";
-            IsMouseVisible = true;
         }
 
         protected override void Initialize()
@@ -55,10 +50,10 @@ namespace TicTacToe
             GumService.Default.Initialize(this, DefaultVisualsVersion.V3);
             GumService.Default.ContentLoader.XnaContentManager = Content;
             FrameworkElement.KeyboardsForUiControl.Add(GumService.Default.Keyboard);
-            
-            // Adjusting Gum UI to asset size (8x)
-            GumService.Default.CanvasWidth = GraphicsDevice.PresentationParameters.BackBufferWidth / 8.0f;
-            GumService.Default.CanvasHeight = GraphicsDevice.PresentationParameters.BackBufferHeight / 8.0f;
+
+            //Adjusting Gum UI to asset size(8x)
+            GumService.Default.CanvasWidth = Graphics.GraphicsDevice.PresentationParameters.BackBufferWidth / 8.0f;
+            GumService.Default.CanvasHeight = Graphics.GraphicsDevice.PresentationParameters.BackBufferHeight / 8.0f;
             GumService.Default.Renderer.Camera.Zoom = 8.0f;
 
             _mouseInfo = new MouseInfo();
@@ -68,13 +63,13 @@ namespace TicTacToe
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-
             _textureAtlas = Content.Load<Texture2D>("images/textures");
 
             _gameBoard = new GameBoard(_textureAtlas, new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height) * 0.5f, _gameBoardSourceRect);
 
             _popSound = Content.Load<SoundEffect>("audio/pop");
+
+            base.LoadContent();
         }
 
         protected override void Update(GameTime gameTime)
@@ -100,24 +95,24 @@ namespace TicTacToe
 
             GumService.Default.Draw();
 
-            _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-            _gameBoard.Draw(_spriteBatch, new Vector2(_gameBoardSourceRect.Width, _gameBoardSourceRect.Height) * 0.5f);
+            _gameBoard.Draw(SpriteBatch, new Vector2(_gameBoardSourceRect.Width, _gameBoardSourceRect.Height) * 0.5f);
 
             //DrawBoardRectangleTest();
             //DrawTokenRectangleTest();
 
             foreach (Token token in _xTokens)
             {
-                token.DrawOnBoard(_spriteBatch, _xTokenSourceRectangle, new Vector2(8, 8));
+                token.DrawOnBoard(SpriteBatch, _xTokenSourceRectangle, new Vector2(8, 8));
             }
 
             foreach (Token token in _oTokens)
             {
-                token.DrawOnBoard(_spriteBatch, _oTokenSourceRectangle, new Vector2(8, 8));
+                token.DrawOnBoard(SpriteBatch, _oTokenSourceRectangle, new Vector2(8, 8));
             }
 
-            _spriteBatch.End();
+            SpriteBatch.End();
 
 
             base.Draw(gameTime);
