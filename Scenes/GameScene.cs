@@ -1,4 +1,5 @@
-﻿using Gum.DataTypes;
+﻿using System;
+using Gum.DataTypes;
 using Gum.Forms.Controls;
 using Gum.Forms.DefaultVisuals.V3;
 using Gum.Managers;
@@ -12,9 +13,7 @@ using MonoGameGum.GueDeriving;
 using MonoGameLibrary;
 using MonoGameLibrary.Input;
 using MonoGameLibrary.Scenes;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace TicTacToe.Scenes;
 
@@ -48,10 +47,6 @@ public class GameScene : Scene
     private BottomRight _bottomRight;
 
     private Panel _gameOverPanel;
-    private Button _playAgainButton;
-    private Button _titleScreenButton;
-    private Texture2D _fontTexture;
-    private SpriteFont _fontFile;
 
     public override void Initialize()
     {
@@ -66,7 +61,6 @@ public class GameScene : Scene
     public override void LoadContent()
     {
         _textureAtlas = Content.Load<Texture2D>("images/textures");
-        _fontTexture = Content.Load<Texture2D>("images/jacquard_24_0");
 
         _gameBoard = new GameBoard(_textureAtlas, new Vector2(400, 400) * 0.5f, _gameBoardSourceRect);
 
@@ -130,10 +124,10 @@ public class GameScene : Scene
 
         if (_mouseInfo.WasButtonJustPressed(MouseButton.Left))
         {
-            _popSound.Play();
-
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopLeft)) && _topLeft == TopLeft.Empty)
             {
+                _popSound.Play();
+
                 if (_isTurnX == true)
                 {
                     _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopLeft)));
@@ -150,6 +144,8 @@ public class GameScene : Scene
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopMiddle)) && _topMiddle == TopMiddle.Empty)
             {
+                _popSound.Play();
+
                 if (_isTurnX == true)
                 {
                     _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopMiddle)));
@@ -166,6 +162,8 @@ public class GameScene : Scene
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopRight)) && _topRight == TopRight.Empty)
             {
+                _popSound.Play();
+
                 if (_isTurnX == true)
                 {
                     _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopRight)));
@@ -182,6 +180,8 @@ public class GameScene : Scene
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Left)) && _left == Left.Empty)
             {
+                _popSound.Play();
+
                 if (_isTurnX == true)
                 {
                     _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Left)));
@@ -198,6 +198,8 @@ public class GameScene : Scene
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Middle)) && _middle == Middle.Empty)
             {
+                _popSound.Play();
+
                 if (_isTurnX == true)
                 {
                     _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Middle)));
@@ -214,6 +216,8 @@ public class GameScene : Scene
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Right)) && _right == Right.Empty)
             {
+                _popSound.Play();
+
                 if (_isTurnX == true)
                 {
                     _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Right)));
@@ -230,6 +234,8 @@ public class GameScene : Scene
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomLeft)) && _bottomLeft == BottomLeft.Empty)
             {
+                _popSound.Play();
+
                 if (_isTurnX == true)
                 {
                     _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomLeft)));
@@ -246,6 +252,8 @@ public class GameScene : Scene
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomMiddle)) && _bottomMiddle == BottomMiddle.Empty)
             {
+                _popSound.Play();
+
                 if (_isTurnX == true)
                 {
                     _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomMiddle)));
@@ -262,6 +270,8 @@ public class GameScene : Scene
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomRight)) && _bottomRight == BottomRight.Empty)
             {
+                _popSound.Play();
+
                 if (_isTurnX == true)
                 {
                     _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomRight)));
@@ -290,7 +300,6 @@ public class GameScene : Scene
             _topLeft == TopLeft.PlayedByX && _middle == Middle.PlayedByX && _bottomRight == BottomRight.PlayedByX ||
             _topRight == TopRight.PlayedByX && _middle == Middle.PlayedByX && _bottomLeft == BottomLeft.PlayedByX)
         {
-            //EndGame();
             PrintWinner("Swords Win");
         }
         else if (_topLeft == TopLeft.PlayedByO && _topMiddle == TopMiddle.PlayedByO && _topRight == TopRight.PlayedByO ||
@@ -302,14 +311,12 @@ public class GameScene : Scene
             _topLeft == TopLeft.PlayedByO && _middle == Middle.PlayedByO && _bottomRight == BottomRight.PlayedByO ||
             _topRight == TopRight.PlayedByO && _middle == Middle.PlayedByO && _bottomLeft == BottomLeft.PlayedByO)
         {
-            //EndGame();
             PrintWinner("Shields Win");
         }
         else if (_topLeft != TopLeft.Empty && _topMiddle != TopMiddle.Empty && _topRight != TopRight.Empty &&
             _left != Left.Empty && _middle != Middle.Empty && _right != Right.Empty &&
             _bottomLeft != BottomLeft.Empty && _bottomMiddle != BottomMiddle.Empty && _bottomRight != BottomRight.Empty)
         {
-            //EndGame();
             PrintWinner("Draw!");
         }
 

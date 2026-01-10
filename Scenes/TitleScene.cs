@@ -27,6 +27,11 @@ public class TitleScene : Scene
     private Panel _titleScreenPanel;
     private Button _playButton;
 
+    private Texture2D _backgroundPattern;
+    private Rectangle _backgroundDestination;
+    private Vector2 _backgroundOffset;
+    private float _scrollSpeed = 15.0f;
+
     public override void Initialize()
     {
         base.Initialize();
@@ -41,6 +46,9 @@ public class TitleScene : Scene
         _pressEnterTextPos = new Vector2(200, 215);
         _pressEnterTextOrigin = size * 0.5f;
 
+        _backgroundOffset = Vector2.Zero;
+        _backgroundDestination = Core.GraphicsDevice.PresentationParameters.Bounds;
+
         InitializeUI();
     }
 
@@ -50,14 +58,24 @@ public class TitleScene : Scene
         _font5x = Core.Content.Load<SpriteFont>("fonts/jacquard24_5x");
 
         _popSound = Core.Content.Load<SoundEffect>("audio/pop");
+
+        _backgroundPattern = Core.Content.Load<Texture2D>("images/titleBackground");
     }
 
     public override void Update(GameTime gameTime)
     {
-        if (Core.Input.Keyboard.WasKeyJustPressed(Keys.Enter))
+        if (Core.Input.Keyboard.WasKeyJustPressed(Keys.Enter) || Core.Input.Mouse.WasButtonJustPressed(MonoGameLibrary.Input.MouseButton.Left))
         {
             Core.ChangeScene(new GameScene());
         }
+
+        float offset = _scrollSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+        _backgroundOffset.X -= offset;
+        _backgroundOffset.Y -= offset;
+
+        // ensures the offsets do not go beyond the texture bounds
+        _backgroundOffset.X %= _backgroundPattern.Width;
+        _backgroundOffset.Y %= _backgroundPattern.Height;
 
         GumService.Default.Update(gameTime);
     }
@@ -65,6 +83,10 @@ public class TitleScene : Scene
     public override void Draw(GameTime gameTime)
     {
         Core.GraphicsDevice.Clear(Color.BurlyWood);
+
+        Core.SpriteBatch.Begin(samplerState: SamplerState.PointWrap);
+        Core.SpriteBatch.Draw(_backgroundPattern, _backgroundDestination, new Rectangle(_backgroundOffset.ToPoint(), _backgroundDestination.Size), Color.White * 0.25f);
+        Core.SpriteBatch.End();
 
         Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
