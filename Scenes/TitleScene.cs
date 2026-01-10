@@ -71,7 +71,7 @@ public class TitleScene : Scene
         Color dropShadowColor = Color.Black * 0.5f;
 
         Core.SpriteBatch.DrawString(_font5x, TITLE_TEXT, _titleTextPos + new Vector2(2, 2), dropShadowColor, 0.0f, _titleTextOrigin, 1.0f, SpriteEffects.None, 1.0f);
-        Core.SpriteBatch.DrawString(_font5x, TITLE_TEXT, _titleTextPos, Color.DarkRed, 0.0f, _titleTextOrigin, 1.0f, SpriteEffects.None, 1.0f);
+        Core.SpriteBatch.DrawString(_font5x, TITLE_TEXT, _titleTextPos, Color.SaddleBrown, 0.0f, _titleTextOrigin, 1.0f, SpriteEffects.None, 1.0f);
 
         Core.SpriteBatch.DrawString(_font, PRESS_ENTER_TEXT, _pressEnterTextPos + new Vector2(1, 1), dropShadowColor, 0.0f, _pressEnterTextOrigin, 1.0f, SpriteEffects.None, 1.0f);
         Core.SpriteBatch.DrawString(_font, PRESS_ENTER_TEXT, _pressEnterTextPos, Color.White, 0.0f, _pressEnterTextOrigin, 1.0f, SpriteEffects.None, 1.0f);
@@ -81,34 +81,34 @@ public class TitleScene : Scene
         GumService.Default.Draw();
     }
 
-    private void CreateTitlePanel()
-    {
-        _titleScreenPanel = new Panel();
-        _titleScreenPanel.Dock(Gum.Wireframe.Dock.Fill);
-        _titleScreenPanel.AddToRoot();
+    //private void CreateTitlePanel()
+    //{
+    //    _titleScreenPanel = new Panel();
+    //    _titleScreenPanel.Dock(Gum.Wireframe.Dock.Fill);
+    //    _titleScreenPanel.AddToRoot();
 
-        _playButton = new Button();
-        _playButton.Anchor(Gum.Wireframe.Anchor.Center);
-        _playButton.X = 0;
-        _playButton.Y = 100;
-        _playButton.Width = 100;
-        _playButton.Height = 50;
-        _playButton.Text = "Play";
-        _playButton.Click += HandlePlayClicked;
-        _titleScreenPanel.AddChild(_playButton);
+    //    _playButton = new Button();
+    //    _playButton.Anchor(Gum.Wireframe.Anchor.Center);
+    //    _playButton.X = 0;
+    //    _playButton.Y = 100;
+    //    _playButton.Width = 100;
+    //    _playButton.Height = 50;
+    //    _playButton.Text = "Play";
+    //    _playButton.Click += HandlePlayClicked;
+    //    _titleScreenPanel.AddChild(_playButton);
 
-        _playButton.IsFocused = true;
-    }
+    //    _playButton.IsFocused = true;
+    //}
 
-    private void HandlePlayClicked(object sender, EventArgs e)
-    {
-        Core.Audio.PlaySoundEffect(_popSound);
-        Core.ChangeScene(new GameScene());
-    }
+    //private void HandlePlayClicked(object sender, EventArgs e)
+    //{
+    //    Core.Audio.PlaySoundEffect(_popSound);
+    //    Core.ChangeScene(new GameScene());
+    //}
 
     private void InitializeUI()
     {
         GumService.Default.Root.Children.Clear();
-        CreateTitlePanel();
+        //CreateTitlePanel();
     }
 }

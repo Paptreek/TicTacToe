@@ -376,7 +376,7 @@ public class GameScene : Scene
         TextRuntime playAgainText = new TextRuntime();
         playAgainText.Text = "play again";
         playAgainText.FontScale = 0.35f;
-        playAgainText.Color = Color.Black;
+        playAgainText.Color = Color.White;
         playAgainText.UseCustomFont = true;
         playAgainText.CustomFontFile = "fonts/jacquard_24.fnt";
         playAgainText.Dock(Dock.Fill);
