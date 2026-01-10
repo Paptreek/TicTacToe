@@ -4,7 +4,6 @@ using MonoGameGum;
 using Gum.Forms;
 using Gum.Forms.Controls;
 
-
 namespace TicTacToe
 {
     public class TicTacToeGame : Core

@@ -1,18 +1,20 @@
-﻿using System;
+﻿using Gum.DataTypes;
+using Gum.Forms.Controls;
+using Gum.Forms.DefaultVisuals.V3;
+using Gum.Managers;
+using Gum.Wireframe;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGameGum;
+using MonoGameGum.GueDeriving;
 using MonoGameLibrary;
 using MonoGameLibrary.Input;
 using MonoGameLibrary.Scenes;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using MonoGameGum;
-using MonoGameGum.GueDeriving;
-using Gum.DataTypes;
-using Gum.Forms.Controls;
-using Gum.Wireframe;
 
 namespace TicTacToe.Scenes;
 
@@ -31,8 +33,9 @@ public class GameScene : Scene
     private Rectangle _gameBoardSourceRect = new(0, 0, 48, 48);
     private Rectangle _xTokenSourceRectangle = new(48, 0, 16, 16);
     private Rectangle _oTokenSourceRectangle = new(64, 0, 16, 16);
+    private Rectangle _buttonBorderSourceRectangle = new Rectangle(48, 16, 32, 16);
 
-    private bool isTurnX = true;
+    private bool _isTurnX = true;
 
     private TopLeft _topLeft;
     private TopMiddle _topMiddle;
@@ -47,6 +50,8 @@ public class GameScene : Scene
     private Panel _gameOverPanel;
     private Button _playAgainButton;
     private Button _titleScreenButton;
+    private Texture2D _fontTexture;
+    private SpriteFont _fontFile;
 
     public override void Initialize()
     {
@@ -61,6 +66,7 @@ public class GameScene : Scene
     public override void LoadContent()
     {
         _textureAtlas = Content.Load<Texture2D>("images/textures");
+        _fontTexture = Content.Load<Texture2D>("images/jacquard_24_0");
 
         _gameBoard = new GameBoard(_textureAtlas, new Vector2(400, 400) * 0.5f, _gameBoardSourceRect);
 
@@ -128,144 +134,144 @@ public class GameScene : Scene
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopLeft)) && _topLeft == TopLeft.Empty)
             {
-                if (isTurnX == true)
+                if (_isTurnX == true)
                 {
                     _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopLeft)));
-                    isTurnX = false;
+                    _isTurnX = false;
                     _topLeft = TopLeft.PlayedByX;
                 }
                 else
                 {
                     _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopLeft)));
-                    isTurnX = true;
+                    _isTurnX = true;
                     _topLeft = TopLeft.PlayedByO;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopMiddle)) && _topMiddle == TopMiddle.Empty)
             {
-                if (isTurnX == true)
+                if (_isTurnX == true)
                 {
                     _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopMiddle)));
-                    isTurnX = false;
+                    _isTurnX = false;
                     _topMiddle = TopMiddle.PlayedByX;
                 }
                 else
                 {
                     _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopMiddle)));
-                    isTurnX = true;
+                    _isTurnX = true;
                     _topMiddle = TopMiddle.PlayedByO;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopRight)) && _topRight == TopRight.Empty)
             {
-                if (isTurnX == true)
+                if (_isTurnX == true)
                 {
                     _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopRight)));
-                    isTurnX = false;
+                    _isTurnX = false;
                     _topRight = TopRight.PlayedByX;
                 }
                 else
                 {
                     _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopRight)));
-                    isTurnX = true;
+                    _isTurnX = true;
                     _topRight = TopRight.PlayedByO;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Left)) && _left == Left.Empty)
             {
-                if (isTurnX == true)
+                if (_isTurnX == true)
                 {
                     _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Left)));
-                    isTurnX = false;
+                    _isTurnX = false;
                     _left = Left.PlayedByX;
                 }
                 else
                 {
                     _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Left)));
-                    isTurnX = true;
+                    _isTurnX = true;
                     _left = Left.PlayedByO;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Middle)) && _middle == Middle.Empty)
             {
-                if (isTurnX == true)
+                if (_isTurnX == true)
                 {
                     _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Middle)));
-                    isTurnX = false;
+                    _isTurnX = false;
                     _middle = Middle.PlayedByX;
                 }
                 else
                 {
                     _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Middle)));
-                    isTurnX = true;
+                    _isTurnX = true;
                     _middle = Middle.PlayedByO;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Right)) && _right == Right.Empty)
             {
-                if (isTurnX == true)
+                if (_isTurnX == true)
                 {
                     _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Right)));
-                    isTurnX = false;
+                    _isTurnX = false;
                     _right = Right.PlayedByX;
                 }
                 else
                 {
                     _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Right)));
-                    isTurnX = true;
+                    _isTurnX = true;
                     _right = Right.PlayedByO;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomLeft)) && _bottomLeft == BottomLeft.Empty)
             {
-                if (isTurnX == true)
+                if (_isTurnX == true)
                 {
                     _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomLeft)));
-                    isTurnX = false;
+                    _isTurnX = false;
                     _bottomLeft = BottomLeft.PlayedByX;
                 }
                 else
                 {
                     _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomLeft)));
-                    isTurnX = true;
+                    _isTurnX = true;
                     _bottomLeft = BottomLeft.PlayedByO;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomMiddle)) && _bottomMiddle == BottomMiddle.Empty)
             {
-                if (isTurnX == true)
+                if (_isTurnX == true)
                 {
                     _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomMiddle)));
-                    isTurnX = false;
+                    _isTurnX = false;
                     _bottomMiddle = BottomMiddle.PlayedByX;
                 }
                 else
                 {
                     _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomMiddle)));
-                    isTurnX = true;
+                    _isTurnX = true;
                     _bottomMiddle = BottomMiddle.PlayedByO;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomRight)) && _bottomRight == BottomRight.Empty)
             {
-                if (isTurnX == true)
+                if (_isTurnX == true)
                 {
                     _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomRight)));
-                    isTurnX = false;
+                    _isTurnX = false;
                     _bottomRight = BottomRight.PlayedByX;
                 }
                 else
                 {
                     _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomRight)));
-                    isTurnX = true;
+                    _isTurnX = true;
                     _bottomRight = BottomRight.PlayedByO;
                 }
             }
@@ -284,8 +290,8 @@ public class GameScene : Scene
             _topLeft == TopLeft.PlayedByX && _middle == Middle.PlayedByX && _bottomRight == BottomRight.PlayedByX ||
             _topRight == TopRight.PlayedByX && _middle == Middle.PlayedByX && _bottomLeft == BottomLeft.PlayedByX)
         {
-            EndGame();
-            PrintWinner("SWORDS WIN");
+            //EndGame();
+            PrintWinner("Swords Win");
         }
         else if (_topLeft == TopLeft.PlayedByO && _topMiddle == TopMiddle.PlayedByO && _topRight == TopRight.PlayedByO ||
             _left == Left.PlayedByO && _middle == Middle.PlayedByO && _right == Right.PlayedByO ||
@@ -296,48 +302,112 @@ public class GameScene : Scene
             _topLeft == TopLeft.PlayedByO && _middle == Middle.PlayedByO && _bottomRight == BottomRight.PlayedByO ||
             _topRight == TopRight.PlayedByO && _middle == Middle.PlayedByO && _bottomLeft == BottomLeft.PlayedByO)
         {
-            EndGame();
-            PrintWinner("SHIELDS WIN");
+            //EndGame();
+            PrintWinner("Shields Win");
         }
         else if (_topLeft != TopLeft.Empty && _topMiddle != TopMiddle.Empty && _topRight != TopRight.Empty &&
             _left != Left.Empty && _middle != Middle.Empty && _right != Right.Empty &&
             _bottomLeft != BottomLeft.Empty && _bottomMiddle != BottomMiddle.Empty && _bottomRight != BottomRight.Empty)
         {
-            EndGame();
-            PrintWinner("IT'S A DRAW");
+            //EndGame();
+            PrintWinner("Draw!");
         }
 
-    }
-
-    public void PrintWinner(string winner)
-    {
-        var background = new ColoredRectangleRuntime();
-        background.Dock(Dock.Fill);
-        background.Color = Color.White * 0.5f;
-        _gameOverPanel.AddChild(background);
-
-        var winnerText = new TextRuntime();
-        winnerText.Anchor(Anchor.Center);
-        winnerText.Text = winner;
-        //winnerText.X = 175;
-        //winnerText.Y = 175;
-        background.AddChild(winnerText);
-    }
-
-    private void EndGame()
-    {
-        _gameOverPanel.IsVisible = true;
-        //_playAgainButton.IsFocused = true;
     }
 
     private void CreateGameOverPanel()
     {
         _gameOverPanel = new Panel();
         _gameOverPanel.Anchor(Anchor.Center);
-        _gameOverPanel.Width = 350;
-        _gameOverPanel.Height = 350;
+        _gameOverPanel.Width = 400;
+        _gameOverPanel.Height = 400;
         _gameOverPanel.IsVisible = false;
         _gameOverPanel.AddToRoot();
+    }
+
+    public void PrintWinner(string winner)
+    {
+        _gameOverPanel.IsVisible = true;
+
+        var background = new ColoredRectangleRuntime();
+        background.Dock(Dock.Fill);
+        background.Color = Color.White * 0.85f;
+        _gameOverPanel.AddChild(background);
+
+        var button = new Button();
+        button.Anchor(Anchor.Center);
+        button.Text = "";
+        background.AddChild(button);
+
+        var buttonVisual = (ButtonVisual)button.Visual;
+        buttonVisual.Y = 45;
+        buttonVisual.Width = 185;
+        buttonVisual.Height = 85;
+        buttonVisual.HeightUnits = DimensionUnitType.Absolute;
+        buttonVisual.WidthUnits = DimensionUnitType.Absolute;
+        buttonVisual.BackgroundColor = Color.BurlyWood;
+        buttonVisual.Click += HandlePlayAgainClicked;
+        background.AddChild(buttonVisual);
+
+        SpriteRuntime buttonBackground = new SpriteRuntime();
+        buttonBackground.Texture = _textureAtlas;
+        buttonBackground.TextureAddress = TextureAddress.Custom;
+        buttonBackground.Width = 200;
+        buttonBackground.Height = 100;
+        buttonBackground.WidthUnits = DimensionUnitType.Absolute;
+        buttonBackground.HeightUnits = DimensionUnitType.Absolute;
+        buttonBackground.TextureHeight = _buttonBorderSourceRectangle.Height;
+        buttonBackground.TextureLeft = _buttonBorderSourceRectangle.Left;
+        buttonBackground.TextureTop = _buttonBorderSourceRectangle.Top;
+        buttonBackground.TextureWidth = _buttonBorderSourceRectangle.Width;
+        buttonBackground.Anchor(Anchor.Center);
+        buttonVisual.AddChild(buttonBackground);
+
+        TextRuntime winnerText = new TextRuntime();
+        winnerText.Text = winner;
+        winnerText.FontScale = 0.70f;
+        winnerText.Color = Color.SaddleBrown;
+        winnerText.UseCustomFont = true;
+        winnerText.CustomFontFile = "fonts/jacquard_24.fnt";
+        winnerText.Anchor(Anchor.Center);
+        winnerText.Y = -35;
+        background.AddChild(winnerText);
+
+        TextRuntime playAgainText = new TextRuntime();
+        playAgainText.Text = "play again";
+        playAgainText.FontScale = 0.35f;
+        playAgainText.Color = Color.Black;
+        playAgainText.UseCustomFont = true;
+        playAgainText.CustomFontFile = "fonts/jacquard_24.fnt";
+        playAgainText.Dock(Dock.Fill);
+        buttonVisual.AddChild(playAgainText);
+    }
+
+    private void HandlePlayAgainClicked(object sender, EventArgs e)
+    {
+        StartNewGame();
+    }
+
+    private void StartNewGame()
+    {
+        _xTokens.Clear();
+        _oTokens.Clear();
+
+        _topLeft = TopLeft.Empty;
+        _topMiddle = TopMiddle.Empty;
+        _topRight = TopRight.Empty;
+        _left = Left.Empty;
+        _middle = Middle.Empty;
+        _right = Right.Empty;
+        _bottomLeft = BottomLeft.Empty;
+        _bottomMiddle = BottomMiddle.Empty;
+        _bottomRight = BottomRight.Empty;
+
+        _isTurnX = true;
+
+        _gameOverPanel.IsVisible = false;
+
+        Core.ChangeScene(new TitleScene());
     }
 
     private void InitializeUI()
