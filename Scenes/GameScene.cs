@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -7,6 +8,11 @@ using MonoGameLibrary.Input;
 using MonoGameLibrary.Scenes;
 using System.Collections.Generic;
 using System.Diagnostics;
+using MonoGameGum;
+using MonoGameGum.GueDeriving;
+using Gum.DataTypes;
+using Gum.Forms.Controls;
+using Gum.Wireframe;
 
 namespace TicTacToe.Scenes;
 
@@ -38,12 +44,18 @@ public class GameScene : Scene
     private BottomMiddle _bottomMiddle;
     private BottomRight _bottomRight;
 
+    private Panel _gameOverPanel;
+    private Button _playAgainButton;
+    private Button _titleScreenButton;
+
     public override void Initialize()
     {
         base.Initialize();
 
-        Core.ExitOnEscape = false;
+        Core.ExitOnEscape = true;
         _mouseInfo = new MouseInfo();
+
+        InitializeUI();
     }
 
     public override void LoadContent()
@@ -57,6 +69,13 @@ public class GameScene : Scene
 
     public override void Update(GameTime gameTime)
     {
+        GumService.Default.Update(gameTime);
+
+        if (_gameOverPanel.IsVisible)
+        {
+            return;
+        }
+
         _mouseState = Mouse.GetState();
         _mouseInfo.Update();
 
@@ -88,6 +107,7 @@ public class GameScene : Scene
 
         Core.SpriteBatch.End();
 
+        GumService.Default.Draw();
 
         base.Draw(gameTime);
     }
@@ -264,7 +284,8 @@ public class GameScene : Scene
             _topLeft == TopLeft.PlayedByX && _middle == Middle.PlayedByX && _bottomRight == BottomRight.PlayedByX ||
             _topRight == TopRight.PlayedByX && _middle == Middle.PlayedByX && _bottomLeft == BottomLeft.PlayedByX)
         {
-            EndGame("SWORDS");
+            EndGame();
+            PrintWinner("SWORDS WIN");
         }
         else if (_topLeft == TopLeft.PlayedByO && _topMiddle == TopMiddle.PlayedByO && _topRight == TopRight.PlayedByO ||
             _left == Left.PlayedByO && _middle == Middle.PlayedByO && _right == Right.PlayedByO ||
@@ -275,26 +296,54 @@ public class GameScene : Scene
             _topLeft == TopLeft.PlayedByO && _middle == Middle.PlayedByO && _bottomRight == BottomRight.PlayedByO ||
             _topRight == TopRight.PlayedByO && _middle == Middle.PlayedByO && _bottomLeft == BottomLeft.PlayedByO)
         {
-            EndGame("SHIELDS");
+            EndGame();
+            PrintWinner("SHIELDS WIN");
         }
         else if (_topLeft != TopLeft.Empty && _topMiddle != TopMiddle.Empty && _topRight != TopRight.Empty &&
             _left != Left.Empty && _middle != Middle.Empty && _right != Right.Empty &&
             _bottomLeft != BottomLeft.Empty && _bottomMiddle != BottomMiddle.Empty && _bottomRight != BottomRight.Empty)
         {
-            EndGame("DRAW");
+            EndGame();
+            PrintWinner("IT'S A DRAW");
         }
+
     }
 
-    public void EndGame(string winner)
+    public void PrintWinner(string winner)
     {
-        if (winner == "SWORDS" || winner == "SHIELDS")
-        {
-            Debug.WriteLine($"{winner} WIN!");
-        }
-        else
-        {
-            Debug.WriteLine($"It's a draw!");
-        }
+        var background = new ColoredRectangleRuntime();
+        background.Dock(Dock.Fill);
+        background.Color = Color.White * 0.5f;
+        _gameOverPanel.AddChild(background);
+
+        var winnerText = new TextRuntime();
+        winnerText.Anchor(Anchor.Center);
+        winnerText.Text = winner;
+        //winnerText.X = 175;
+        //winnerText.Y = 175;
+        background.AddChild(winnerText);
+    }
+
+    private void EndGame()
+    {
+        _gameOverPanel.IsVisible = true;
+        //_playAgainButton.IsFocused = true;
+    }
+
+    private void CreateGameOverPanel()
+    {
+        _gameOverPanel = new Panel();
+        _gameOverPanel.Anchor(Anchor.Center);
+        _gameOverPanel.Width = 350;
+        _gameOverPanel.Height = 350;
+        _gameOverPanel.IsVisible = false;
+        _gameOverPanel.AddToRoot();
+    }
+
+    private void InitializeUI()
+    {
+        GumService.Default.Root.Children.Clear();
+        CreateGameOverPanel();
     }
 
     public void DrawBoardRectangleTest()

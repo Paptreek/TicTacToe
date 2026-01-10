@@ -26,10 +26,6 @@ namespace TicTacToe
             GumService.Default.Initialize(this, DefaultVisualsVersion.V3);
             GumService.Default.ContentLoader.XnaContentManager = Core.Content;
             FrameworkElement.KeyboardsForUiControl.Add(GumService.Default.Keyboard);
-
-            //GumService.Default.CanvasWidth = GraphicsDevice.PresentationParameters.BackBufferWidth / 8.0f;
-            //GumService.Default.CanvasHeight = GraphicsDevice.PresentationParameters.BackBufferHeight / 8.0f;
-            //GumService.Default.Renderer.Camera.Zoom = 8.0f;
         }
     }
 }
