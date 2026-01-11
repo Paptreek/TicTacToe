@@ -1,4 +1,4 @@
 <Solution>
   <Project Path="../MonoGameLibrary/MonoGameLibrary.csproj" Id="5d9bed46-40c7-470e-a7ef-099181a047c4" />
-  <Project Path="TicTacToe.csproj" />
+  <Project Path="SwordsAndShields.csproj" />
 </Solution>

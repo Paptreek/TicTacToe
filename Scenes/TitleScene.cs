@@ -8,7 +8,7 @@ using Gum.Forms.Controls;
 using MonoGameLibrary;
 using MonoGameLibrary.Scenes;
 
-namespace TicTacToe.Scenes;
+namespace SwordsAndShields.Scenes;
 
 public class TitleScene : Scene
 {

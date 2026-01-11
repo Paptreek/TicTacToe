@@ -15,28 +15,28 @@ using MonoGameLibrary.Input;
 using MonoGameLibrary.Scenes;
 using System.Collections.Generic;
 
-namespace TicTacToe.Scenes;
+namespace SwordsAndShields.Scenes;
 
 public class GameScene : Scene
 {
     private Texture2D _textureAtlas;
     private GameBoard _gameBoard;
     private MouseInfo _mouseInfo;
-    private SoundEffect _xSound;
-    private SoundEffect _oSound;
+    private SoundEffect _swordSound;
+    private SoundEffect _shieldSound;
     private SoundEffect _victorySound;
 
-    private readonly List<Token> _xTokens = [];
-    private readonly List<Token> _oTokens = [];
+    private readonly List<Token> _swordTokens = [];
+    private readonly List<Token> _shieldTokens = [];
 
     private MouseState _mouseState;
 
     private Rectangle _gameBoardSourceRect = new(0, 0, 48, 48);
-    private Rectangle _xTokenSourceRectangle = new(48, 0, 16, 16);
-    private Rectangle _oTokenSourceRectangle = new(64, 0, 16, 16);
+    private Rectangle _swordTokenSourceRect = new(48, 0, 16, 16);
+    private Rectangle _shieldTokenSourceRect = new(64, 0, 16, 16);
     private Rectangle _buttonBorderSourceRectangle = new Rectangle(48, 16, 32, 16);
 
-    private bool _isTurnX = true;
+    private bool _isSwordsTurn = true;
 
     private TopLeft _topLeft;
     private TopMiddle _topMiddle;
@@ -66,8 +66,8 @@ public class GameScene : Scene
 
         _gameBoard = new GameBoard(_textureAtlas, new Vector2(400, 400) * 0.5f, _gameBoardSourceRect);
 
-        _xSound = Content.Load<SoundEffect>("audio/sword");
-        _oSound = Content.Load<SoundEffect>("audio/shield");
+        _swordSound = Content.Load<SoundEffect>("audio/sword");
+        _shieldSound = Content.Load<SoundEffect>("audio/shield");
         _victorySound = Content.Load<SoundEffect>("audio/victory");
     }
 
@@ -99,14 +99,14 @@ public class GameScene : Scene
         //DrawBoardRectangleTest();
         //DrawTokenRectangleTest();
 
-        foreach (Token token in _xTokens)
+        foreach (Token token in _swordTokens)
         {
-            token.DrawOnBoard(Core.SpriteBatch, _xTokenSourceRectangle, new Vector2(8, 8));
+            token.DrawOnBoard(Core.SpriteBatch, _swordTokenSourceRect, new Vector2(8, 8));
         }
 
-        foreach (Token token in _oTokens)
+        foreach (Token token in _shieldTokens)
         {
-            token.DrawOnBoard(Core.SpriteBatch, _oTokenSourceRectangle, new Vector2(8, 8));
+            token.DrawOnBoard(Core.SpriteBatch, _shieldTokenSourceRect, new Vector2(8, 8));
         }
 
         Core.SpriteBatch.End();
@@ -122,176 +122,176 @@ public class GameScene : Scene
         Rectangle clickArea = new(
                 (int)_mouseState.Position.X - 4,
                 (int)_mouseState.Position.Y - 4,
-                (int)_xTokenSourceRectangle.Width - 8,
-                (int)_xTokenSourceRectangle.Height - 8
+                (int)_swordTokenSourceRect.Width - 8,
+                (int)_swordTokenSourceRect.Height - 8
         );
 
         if (_mouseInfo.WasButtonJustPressed(MouseButton.Left))
         {
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopLeft)) && _topLeft == TopLeft.Empty)
             {
-                if (_isTurnX == true)
+                if (_isSwordsTurn == true)
                 {
-                    PlayXTurn(BoardLocation.TopLeft);
-                    _topLeft = TopLeft.PlayedByX;
+                    PlaySwordTurn(BoardLocation.TopLeft);
+                    _topLeft = TopLeft.PlayedBySwords;
                 }
                 else
                 {
-                    PlayOTurn(BoardLocation.TopLeft);
-                    _topLeft = TopLeft.PlayedByO;
+                    PlayShieldTurn(BoardLocation.TopLeft);
+                    _topLeft = TopLeft.PlayedByShields;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopMiddle)) && _topMiddle == TopMiddle.Empty)
             {
-                if (_isTurnX == true)
+                if (_isSwordsTurn == true)
                 {
-                    PlayXTurn(BoardLocation.TopMiddle);
-                    _topMiddle = TopMiddle.PlayedByX;
+                    PlaySwordTurn(BoardLocation.TopMiddle);
+                    _topMiddle = TopMiddle.PlayedBySwords;
                 }
                 else
                 {
-                    PlayOTurn(BoardLocation.TopMiddle);
-                    _topMiddle = TopMiddle.PlayedByO;
+                    PlayShieldTurn(BoardLocation.TopMiddle);
+                    _topMiddle = TopMiddle.PlayedByShields;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopRight)) && _topRight == TopRight.Empty)
             {
-                if (_isTurnX == true)
+                if (_isSwordsTurn == true)
                 {
-                    PlayXTurn(BoardLocation.TopRight);
-                    _topRight = TopRight.PlayedByX;
+                    PlaySwordTurn(BoardLocation.TopRight);
+                    _topRight = TopRight.PlayedBySwords;
                 }
                 else
                 {
-                    PlayOTurn(BoardLocation.TopRight);
-                    _topRight = TopRight.PlayedByO;
+                    PlayShieldTurn(BoardLocation.TopRight);
+                    _topRight = TopRight.PlayedByShields;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Left)) && _left == Left.Empty)
             {
-                if (_isTurnX == true)
+                if (_isSwordsTurn == true)
                 {
-                    PlayXTurn(BoardLocation.Left);
-                    _left = Left.PlayedByX;
+                    PlaySwordTurn(BoardLocation.Left);
+                    _left = Left.PlayedBySwords;
                 }
                 else
                 {
-                    PlayOTurn(BoardLocation.Left);
-                    _left = Left.PlayedByO;
+                    PlayShieldTurn(BoardLocation.Left);
+                    _left = Left.PlayedByShields;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Middle)) && _middle == Middle.Empty)
             {
-                if (_isTurnX == true)
+                if (_isSwordsTurn == true)
                 {
-                    PlayXTurn(BoardLocation.Middle);
-                    _middle = Middle.PlayedByX;
+                    PlaySwordTurn(BoardLocation.Middle);
+                    _middle = Middle.PlayedBySwords;
                 }
                 else
                 {
-                    PlayOTurn(BoardLocation.Middle);
-                    _middle = Middle.PlayedByO;
+                    PlayShieldTurn(BoardLocation.Middle);
+                    _middle = Middle.PlayedByShields;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Right)) && _right == Right.Empty)
             {
-                if (_isTurnX == true)
+                if (_isSwordsTurn == true)
                 {
-                    PlayXTurn(BoardLocation.Right);
-                    _right = Right.PlayedByX;
+                    PlaySwordTurn(BoardLocation.Right);
+                    _right = Right.PlayedBySwords;
                 }
                 else
                 {
-                    PlayOTurn(BoardLocation.Right);
-                    _right = Right.PlayedByO;
+                    PlayShieldTurn(BoardLocation.Right);
+                    _right = Right.PlayedByShields;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomLeft)) && _bottomLeft == BottomLeft.Empty)
             {
-                if (_isTurnX == true)
+                if (_isSwordsTurn == true)
                 {
-                    PlayXTurn(BoardLocation.BottomLeft);
-                    _bottomLeft = BottomLeft.PlayedByX;
+                    PlaySwordTurn(BoardLocation.BottomLeft);
+                    _bottomLeft = BottomLeft.PlayedBySwords;
                 }
                 else
                 {
-                    PlayOTurn(BoardLocation.BottomLeft);
-                    _bottomLeft = BottomLeft.PlayedByO;
+                    PlayShieldTurn(BoardLocation.BottomLeft);
+                    _bottomLeft = BottomLeft.PlayedByShields;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomMiddle)) && _bottomMiddle == BottomMiddle.Empty)
             {
-                if (_isTurnX == true)
+                if (_isSwordsTurn == true)
                 {
-                    PlayXTurn(BoardLocation.BottomMiddle);
-                    _bottomMiddle = BottomMiddle.PlayedByX;
+                    PlaySwordTurn(BoardLocation.BottomMiddle);
+                    _bottomMiddle = BottomMiddle.PlayedBySwords;
                 }
                 else
                 {
-                    PlayOTurn(BoardLocation.BottomMiddle);
-                    _bottomMiddle = BottomMiddle.PlayedByO;
+                    PlayShieldTurn(BoardLocation.BottomMiddle);
+                    _bottomMiddle = BottomMiddle.PlayedByShields;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomRight)) && _bottomRight == BottomRight.Empty)
             {
-                if (_isTurnX == true)
+                if (_isSwordsTurn == true)
                 {
-                    PlayXTurn(BoardLocation.BottomRight);
-                    _bottomRight = BottomRight.PlayedByX;
+                    PlaySwordTurn(BoardLocation.BottomRight);
+                    _bottomRight = BottomRight.PlayedBySwords;
                 }
                 else
                 {
-                    PlayOTurn(BoardLocation.BottomRight);
-                    _bottomRight = BottomRight.PlayedByO;
+                    PlayShieldTurn(BoardLocation.BottomRight);
+                    _bottomRight = BottomRight.PlayedByShields;
                 }
             }
         }
     }
 
-    private void PlayXTurn(BoardLocation boardLocation)
+    private void PlaySwordTurn(BoardLocation boardLocation)
     {
-        _xSound.Play();
-        _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(boardLocation)));
-        _isTurnX = false;
+        _swordSound.Play();
+        _swordTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(boardLocation)));
+        _isSwordsTurn = false;
     }
 
-    private void PlayOTurn(BoardLocation boardLocation)
+    private void PlayShieldTurn(BoardLocation boardLocation)
     {
-        _oSound.Play();
-        _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(boardLocation)));
-        _isTurnX = true;
+        _shieldSound.Play();
+        _shieldTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(boardLocation)));
+        _isSwordsTurn = true;
     }
 
     // LOL I hate this, but it was the first working solution that came to mind. "felt cute, might delete later"
     public void CheckForWin()
     {
-        if (_topLeft == TopLeft.PlayedByX && _topMiddle == TopMiddle.PlayedByX && _topRight == TopRight.PlayedByX ||
-            _left == Left.PlayedByX && _middle == Middle.PlayedByX && _right == Right.PlayedByX ||
-            _bottomLeft == BottomLeft.PlayedByX && _bottomMiddle == BottomMiddle.PlayedByX && _bottomRight == BottomRight.PlayedByX ||
-            _topLeft == TopLeft.PlayedByX && _left == Left.PlayedByX && _bottomLeft == BottomLeft.PlayedByX ||
-            _topMiddle == TopMiddle.PlayedByX && _middle == Middle.PlayedByX && _bottomMiddle == BottomMiddle.PlayedByX ||
-            _topRight == TopRight.PlayedByX && _right == Right.PlayedByX && _bottomRight == BottomRight.PlayedByX ||
-            _topLeft == TopLeft.PlayedByX && _middle == Middle.PlayedByX && _bottomRight == BottomRight.PlayedByX ||
-            _topRight == TopRight.PlayedByX && _middle == Middle.PlayedByX && _bottomLeft == BottomLeft.PlayedByX)
+        if (_topLeft == TopLeft.PlayedBySwords && _topMiddle == TopMiddle.PlayedBySwords && _topRight == TopRight.PlayedBySwords ||
+            _left == Left.PlayedBySwords && _middle == Middle.PlayedBySwords && _right == Right.PlayedBySwords ||
+            _bottomLeft == BottomLeft.PlayedBySwords && _bottomMiddle == BottomMiddle.PlayedBySwords && _bottomRight == BottomRight.PlayedBySwords ||
+            _topLeft == TopLeft.PlayedBySwords && _left == Left.PlayedBySwords && _bottomLeft == BottomLeft.PlayedBySwords ||
+            _topMiddle == TopMiddle.PlayedBySwords && _middle == Middle.PlayedBySwords && _bottomMiddle == BottomMiddle.PlayedBySwords ||
+            _topRight == TopRight.PlayedBySwords && _right == Right.PlayedBySwords && _bottomRight == BottomRight.PlayedBySwords ||
+            _topLeft == TopLeft.PlayedBySwords && _middle == Middle.PlayedBySwords && _bottomRight == BottomRight.PlayedBySwords ||
+            _topRight == TopRight.PlayedBySwords && _middle == Middle.PlayedBySwords && _bottomLeft == BottomLeft.PlayedBySwords)
         {
             PrintWinner("Swords Win");
         }
-        else if (_topLeft == TopLeft.PlayedByO && _topMiddle == TopMiddle.PlayedByO && _topRight == TopRight.PlayedByO ||
-            _left == Left.PlayedByO && _middle == Middle.PlayedByO && _right == Right.PlayedByO ||
-            _bottomLeft == BottomLeft.PlayedByO && _bottomMiddle == BottomMiddle.PlayedByO && _bottomRight == BottomRight.PlayedByO ||
-            _topLeft == TopLeft.PlayedByO && _left == Left.PlayedByO && _bottomLeft == BottomLeft.PlayedByO ||
-            _topMiddle == TopMiddle.PlayedByO && _middle == Middle.PlayedByO && _bottomMiddle == BottomMiddle.PlayedByO ||
-            _topRight == TopRight.PlayedByO && _right == Right.PlayedByO && _bottomRight == BottomRight.PlayedByO ||
-            _topLeft == TopLeft.PlayedByO && _middle == Middle.PlayedByO && _bottomRight == BottomRight.PlayedByO ||
-            _topRight == TopRight.PlayedByO && _middle == Middle.PlayedByO && _bottomLeft == BottomLeft.PlayedByO)
+        else if (_topLeft == TopLeft.PlayedByShields && _topMiddle == TopMiddle.PlayedByShields && _topRight == TopRight.PlayedByShields ||
+            _left == Left.PlayedByShields && _middle == Middle.PlayedByShields && _right == Right.PlayedByShields ||
+            _bottomLeft == BottomLeft.PlayedByShields && _bottomMiddle == BottomMiddle.PlayedByShields && _bottomRight == BottomRight.PlayedByShields ||
+            _topLeft == TopLeft.PlayedByShields && _left == Left.PlayedByShields && _bottomLeft == BottomLeft.PlayedByShields ||
+            _topMiddle == TopMiddle.PlayedByShields && _middle == Middle.PlayedByShields && _bottomMiddle == BottomMiddle.PlayedByShields ||
+            _topRight == TopRight.PlayedByShields && _right == Right.PlayedByShields && _bottomRight == BottomRight.PlayedByShields ||
+            _topLeft == TopLeft.PlayedByShields && _middle == Middle.PlayedByShields && _bottomRight == BottomRight.PlayedByShields ||
+            _topRight == TopRight.PlayedByShields && _middle == Middle.PlayedByShields && _bottomLeft == BottomLeft.PlayedByShields)
         {
             PrintWinner("Shields Win");
         }
@@ -381,8 +381,8 @@ public class GameScene : Scene
 
     private void StartNewGame()
     {
-        _xTokens.Clear();
-        _oTokens.Clear();
+        _swordTokens.Clear();
+        _shieldTokens.Clear();
 
         _topLeft = TopLeft.Empty;
         _topMiddle = TopMiddle.Empty;
@@ -394,7 +394,7 @@ public class GameScene : Scene
         _bottomMiddle = BottomMiddle.Empty;
         _bottomRight = BottomRight.Empty;
 
-        _isTurnX = true;
+        _isSwordsTurn = true;
 
         _gameOverPanel.IsVisible = false;
 
@@ -428,15 +428,15 @@ public class GameScene : Scene
         texture = new Texture2D(Core.GraphicsDevice, 1, 1);
         texture.SetData([Color.Snow]);
 
-        foreach (Token token in _oTokens)
+        foreach (Token token in _shieldTokens)
         {
             Core.SpriteBatch.Draw(
                 texture,
                 new Rectangle(
                     (int)token.TokenPosition.X - 4,
                     (int)token.TokenPosition.Y - 4,
-                    (int)_oTokenSourceRectangle.Width - 8,
-                    (int)_oTokenSourceRectangle.Height - 8),
+                    (int)_shieldTokenSourceRect.Width - 8,
+                    (int)_shieldTokenSourceRect.Height - 8),
                 Color.White);
         }
     }

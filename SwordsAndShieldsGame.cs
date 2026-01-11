@@ -3,15 +3,15 @@ using Gum.Forms.Controls;
 using Microsoft.Xna.Framework.Media;
 using MonoGameGum;
 using MonoGameLibrary;
-using TicTacToe.Scenes;
+using SwordsAndShields.Scenes;
 
-namespace TicTacToe;
+namespace SwordsAndShields;
 
-public class TicTacToeGame : Core
+public class SwordsAndShieldsGame : Core
 {
     private Song _backgroundMusic;
 
-    public TicTacToeGame() : base("Swords and Shields", 400, 400, false)
+    public SwordsAndShieldsGame() : base("Swords and Shields", 400, 400, false)
     {
 
     }
