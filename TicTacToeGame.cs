@@ -1,30 +1,38 @@
-﻿using MonoGameLibrary;
-using TicTacToe.Scenes;
-using MonoGameGum;
-using Gum.Forms;
+﻿using Gum.Forms;
 using Gum.Forms.Controls;
+using Microsoft.Xna.Framework.Media;
+using MonoGameGum;
+using MonoGameLibrary;
+using TicTacToe.Scenes;
 
-namespace TicTacToe
+namespace TicTacToe;
+
+public class TicTacToeGame : Core
 {
-    public class TicTacToeGame : Core
+    private Song _backgroundMusic;
+
+    public TicTacToeGame() : base("Swords and Shields", 400, 400, false)
     {
-        public TicTacToeGame() : base("Swords and Shields", 400, 400, false)
-        {
 
-        }
+    }
 
-        protected override void Initialize()
-        {
-            base.Initialize();
-            InitializeGum();
-            ChangeScene(new TitleScene());
-        }
+    protected override void Initialize()
+    {
+        base.Initialize();
+        Audio.PlaySong(_backgroundMusic);
+        InitializeGum();
+        ChangeScene(new TitleScene());
+    }
 
-        private void InitializeGum()
-        {
-            GumService.Default.Initialize(this, DefaultVisualsVersion.V3);
-            GumService.Default.ContentLoader.XnaContentManager = Core.Content;
-            FrameworkElement.KeyboardsForUiControl.Add(GumService.Default.Keyboard);
-        }
+    protected override void LoadContent()
+    {
+        _backgroundMusic = Content.Load<Song>("audio/song");
+    }
+
+    private void InitializeGum()
+    {
+        GumService.Default.Initialize(this, DefaultVisualsVersion.V3);
+        GumService.Default.ContentLoader.XnaContentManager = Core.Content;
+        FrameworkElement.KeyboardsForUiControl.Add(GumService.Default.Keyboard);
     }
 }

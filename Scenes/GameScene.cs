@@ -22,7 +22,8 @@ public class GameScene : Scene
     private Texture2D _textureAtlas;
     private GameBoard _gameBoard;
     private MouseInfo _mouseInfo;
-    private SoundEffect _popSound;
+    private SoundEffect _xSound;
+    private SoundEffect _oSound;
 
     private readonly List<Token> _xTokens = [];
     private readonly List<Token> _oTokens = [];
@@ -64,7 +65,8 @@ public class GameScene : Scene
 
         _gameBoard = new GameBoard(_textureAtlas, new Vector2(400, 400) * 0.5f, _gameBoardSourceRect);
 
-        _popSound = Content.Load<SoundEffect>("audio/pop");
+        _xSound = Content.Load<SoundEffect>("audio/sword");
+        _oSound = Content.Load<SoundEffect>("audio/shield");
     }
 
     public override void Update(GameTime gameTime)
@@ -126,166 +128,144 @@ public class GameScene : Scene
         {
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopLeft)) && _topLeft == TopLeft.Empty)
             {
-                _popSound.Play();
-
                 if (_isTurnX == true)
                 {
-                    _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopLeft)));
-                    _isTurnX = false;
+                    PlayXTurn(BoardLocation.TopLeft);
                     _topLeft = TopLeft.PlayedByX;
                 }
                 else
                 {
-                    _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopLeft)));
-                    _isTurnX = true;
+                    PlayOTurn(BoardLocation.TopLeft);
                     _topLeft = TopLeft.PlayedByO;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopMiddle)) && _topMiddle == TopMiddle.Empty)
             {
-                _popSound.Play();
-
                 if (_isTurnX == true)
                 {
-                    _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopMiddle)));
-                    _isTurnX = false;
+                    PlayXTurn(BoardLocation.TopMiddle);
                     _topMiddle = TopMiddle.PlayedByX;
                 }
                 else
                 {
-                    _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopMiddle)));
-                    _isTurnX = true;
+                    PlayOTurn(BoardLocation.TopMiddle);
                     _topMiddle = TopMiddle.PlayedByO;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopRight)) && _topRight == TopRight.Empty)
             {
-                _popSound.Play();
-
                 if (_isTurnX == true)
                 {
-                    _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopRight)));
-                    _isTurnX = false;
+                    PlayXTurn(BoardLocation.TopRight);
                     _topRight = TopRight.PlayedByX;
                 }
                 else
                 {
-                    _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.TopRight)));
-                    _isTurnX = true;
+                    PlayOTurn(BoardLocation.TopRight);
                     _topRight = TopRight.PlayedByO;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Left)) && _left == Left.Empty)
             {
-                _popSound.Play();
-
                 if (_isTurnX == true)
                 {
-                    _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Left)));
-                    _isTurnX = false;
+                    PlayXTurn(BoardLocation.Left);
                     _left = Left.PlayedByX;
                 }
                 else
                 {
-                    _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Left)));
-                    _isTurnX = true;
+                    PlayOTurn(BoardLocation.Left);
                     _left = Left.PlayedByO;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Middle)) && _middle == Middle.Empty)
             {
-                _popSound.Play();
-
                 if (_isTurnX == true)
                 {
-                    _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Middle)));
-                    _isTurnX = false;
+                    PlayXTurn(BoardLocation.Middle);
                     _middle = Middle.PlayedByX;
                 }
                 else
                 {
-                    _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Middle)));
-                    _isTurnX = true;
+                    PlayOTurn(BoardLocation.Middle);
                     _middle = Middle.PlayedByO;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Right)) && _right == Right.Empty)
             {
-                _popSound.Play();
-
                 if (_isTurnX == true)
                 {
-                    _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Right)));
-                    _isTurnX = false;
+                    PlayXTurn(BoardLocation.Right);
                     _right = Right.PlayedByX;
                 }
                 else
                 {
-                    _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.Right)));
-                    _isTurnX = true;
+                    PlayOTurn(BoardLocation.Right);
                     _right = Right.PlayedByO;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomLeft)) && _bottomLeft == BottomLeft.Empty)
             {
-                _popSound.Play();
-
                 if (_isTurnX == true)
                 {
-                    _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomLeft)));
-                    _isTurnX = false;
+                    PlayXTurn(BoardLocation.BottomLeft);
                     _bottomLeft = BottomLeft.PlayedByX;
                 }
                 else
                 {
-                    _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomLeft)));
-                    _isTurnX = true;
+                    PlayOTurn(BoardLocation.BottomLeft);
                     _bottomLeft = BottomLeft.PlayedByO;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomMiddle)) && _bottomMiddle == BottomMiddle.Empty)
             {
-                _popSound.Play();
-
                 if (_isTurnX == true)
                 {
-                    _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomMiddle)));
-                    _isTurnX = false;
+                    PlayXTurn(BoardLocation.BottomMiddle);
                     _bottomMiddle = BottomMiddle.PlayedByX;
                 }
                 else
                 {
-                    _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomMiddle)));
-                    _isTurnX = true;
+                    PlayOTurn(BoardLocation.BottomMiddle);
                     _bottomMiddle = BottomMiddle.PlayedByO;
                 }
             }
 
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomRight)) && _bottomRight == BottomRight.Empty)
             {
-                _popSound.Play();
-
                 if (_isTurnX == true)
                 {
-                    _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomRight)));
-                    _isTurnX = false;
+                    PlayXTurn(BoardLocation.BottomRight);
                     _bottomRight = BottomRight.PlayedByX;
                 }
                 else
                 {
-                    _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(BoardLocation.BottomRight)));
-                    _isTurnX = true;
+                    PlayOTurn(BoardLocation.BottomRight);
                     _bottomRight = BottomRight.PlayedByO;
                 }
             }
         }
+    }
+
+    private void PlayXTurn(BoardLocation boardLocation)
+    {
+        _xSound.Play();
+        _xTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(boardLocation)));
+        _isTurnX = false;
+    }
+
+    private void PlayOTurn(BoardLocation boardLocation)
+    {
+        _oSound.Play();
+        _oTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(boardLocation)));
+        _isTurnX = true;
     }
 
     // LOL I hate this, but it was the first working solution that came to mind. "felt cute, might delete later"
