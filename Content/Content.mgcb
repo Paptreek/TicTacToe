@@ -37,6 +37,12 @@
 /processorParam:Quality=Best
 /build:audio/sword.wav
 
+#begin audio/victory.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/victory.wav
+
 #begin fonts/jacquard_24_0.png
 /importer:TextureImporter
 /processor:TextureProcessor

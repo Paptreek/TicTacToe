@@ -24,6 +24,7 @@ public class GameScene : Scene
     private MouseInfo _mouseInfo;
     private SoundEffect _xSound;
     private SoundEffect _oSound;
+    private SoundEffect _victorySound;
 
     private readonly List<Token> _xTokens = [];
     private readonly List<Token> _oTokens = [];
@@ -67,6 +68,7 @@ public class GameScene : Scene
 
         _xSound = Content.Load<SoundEffect>("audio/sword");
         _oSound = Content.Load<SoundEffect>("audio/shield");
+        _victorySound = Content.Load<SoundEffect>("audio/victory");
     }
 
     public override void Update(GameTime gameTime)
@@ -314,6 +316,8 @@ public class GameScene : Scene
 
     public void PrintWinner(string winner)
     {
+        _victorySound.Play();
+
         _gameOverPanel.IsVisible = true;
 
         var background = new ColoredRectangleRuntime();
