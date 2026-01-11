@@ -21,7 +21,6 @@ public class GameScene : Scene
 {
     private Texture2D _textureAtlas;
     private GameBoard _gameBoard;
-    private MouseInfo _mouseInfo;
     private SoundEffect _swordSound;
     private SoundEffect _shieldSound;
     private SoundEffect _victorySound;
@@ -55,7 +54,6 @@ public class GameScene : Scene
         base.Initialize();
 
         Core.ExitOnEscape = true;
-        _mouseInfo = new MouseInfo();
 
         InitializeUI();
     }
@@ -75,13 +73,15 @@ public class GameScene : Scene
     {
         GumService.Default.Update(gameTime);
 
+        if (Core.Input.Keyboard.WasKeyJustPressed(Keys.M))
+        {
+            Core.Audio.ToggleMute();
+        }
+
         if (_gameOverPanel.IsVisible)
         {
             return;
         }
-
-        _mouseState = Mouse.GetState();
-        _mouseInfo.Update();
 
         GetPlayerChoice();
 
@@ -119,6 +119,8 @@ public class GameScene : Scene
     // I'm sure this can be shortened, but haven't spent enough time to come up with a better solution. Does the job for now.
     public void GetPlayerChoice()
     {
+        _mouseState = Mouse.GetState();
+
         Rectangle clickArea = new(
                 (int)_mouseState.Position.X - 4,
                 (int)_mouseState.Position.Y - 4,
@@ -126,7 +128,7 @@ public class GameScene : Scene
                 (int)_swordTokenSourceRect.Height - 8
         );
 
-        if (_mouseInfo.WasButtonJustPressed(MouseButton.Left))
+        if (Core.Input.Mouse.WasButtonJustPressed(MouseButton.Left))
         {
             if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopLeft)) && _topLeft == TopLeft.Empty)
             {
@@ -407,6 +409,7 @@ public class GameScene : Scene
         CreateGameOverPanel();
     }
 
+    // these are just for visualizing collision rectangles on screen for proper placement
     public void DrawBoardRectangleTest()
     {
         Texture2D texture;

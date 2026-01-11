@@ -1,10 +1,7 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameGum;
-using Gum.Forms.Controls;
 using MonoGameLibrary;
 using MonoGameLibrary.Scenes;
 
@@ -22,10 +19,6 @@ public class TitleScene : Scene
     private Vector2 _titleTextOrigin;
     private Vector2 _pressEnterTextPos;
     private Vector2 _pressEnterTextOrigin;
-
-    private SoundEffect _popSound;
-    private Panel _titleScreenPanel;
-    private Button _playButton;
 
     private Texture2D _backgroundPattern;
     private Rectangle _backgroundDestination;
@@ -57,8 +50,6 @@ public class TitleScene : Scene
         _font = Core.Content.Load<SpriteFont>("fonts/jacquard24");
         _font5x = Core.Content.Load<SpriteFont>("fonts/jacquard24_5x");
 
-        _popSound = Core.Content.Load<SoundEffect>("audio/pop");
-
         _backgroundPattern = Core.Content.Load<Texture2D>("images/titleBackground");
     }
 
@@ -67,6 +58,11 @@ public class TitleScene : Scene
         if (Core.Input.Keyboard.WasKeyJustPressed(Keys.Enter) || Core.Input.Mouse.WasButtonJustPressed(MonoGameLibrary.Input.MouseButton.Left))
         {
             Core.ChangeScene(new GameScene());
+        }
+
+        if (Core.Input.Keyboard.WasKeyJustPressed(Keys.M))
+        {
+            Core.Audio.ToggleMute();
         }
 
         float offset = _scrollSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -103,34 +99,8 @@ public class TitleScene : Scene
         GumService.Default.Draw();
     }
 
-    //private void CreateTitlePanel()
-    //{
-    //    _titleScreenPanel = new Panel();
-    //    _titleScreenPanel.Dock(Gum.Wireframe.Dock.Fill);
-    //    _titleScreenPanel.AddToRoot();
-
-    //    _playButton = new Button();
-    //    _playButton.Anchor(Gum.Wireframe.Anchor.Center);
-    //    _playButton.X = 0;
-    //    _playButton.Y = 100;
-    //    _playButton.Width = 100;
-    //    _playButton.Height = 50;
-    //    _playButton.Text = "Play";
-    //    _playButton.Click += HandlePlayClicked;
-    //    _titleScreenPanel.AddChild(_playButton);
-
-    //    _playButton.IsFocused = true;
-    //}
-
-    //private void HandlePlayClicked(object sender, EventArgs e)
-    //{
-    //    Core.Audio.PlaySoundEffect(_popSound);
-    //    Core.ChangeScene(new GameScene());
-    //}
-
     private void InitializeUI()
     {
         GumService.Default.Root.Children.Clear();
-        //CreateTitlePanel();
     }
 }
