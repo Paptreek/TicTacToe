@@ -33,7 +33,7 @@ public class GameScene : Scene
     private Rectangle _gameBoardSourceRect = new(0, 0, 48, 48);
     private Rectangle _swordTokenSourceRect = new(48, 0, 16, 16);
     private Rectangle _shieldTokenSourceRect = new(64, 0, 16, 16);
-    private Rectangle _buttonBorderSourceRectangle = new Rectangle(48, 16, 32, 16);
+    private Rectangle _buttonBorderSourceRectangle = new(48, 16, 32, 16);
 
     private bool _isSwordsTurn = true;
 
@@ -237,7 +237,11 @@ public class GameScene : Scene
 
         var background = new ColoredRectangleRuntime();
         background.Dock(Dock.Fill);
-        background.Color = Color.White * 0.85f;
+        background.Color = Color.White * 0.75f;
+        background.WidthUnits = DimensionUnitType.Absolute;
+        background.HeightUnits = DimensionUnitType.Absolute;
+        background.Width = 350;
+        background.Height = 350;
         _gameOverPanel.AddChild(background);
 
         var button = new Button();
@@ -255,7 +259,7 @@ public class GameScene : Scene
         buttonVisual.Click += HandlePlayAgainClicked;
         background.AddChild(buttonVisual);
 
-        SpriteRuntime buttonBackground = new SpriteRuntime();
+        SpriteRuntime buttonBackground = new();
         buttonBackground.Texture = _textureAtlas;
         buttonBackground.TextureAddress = TextureAddress.Custom;
         buttonBackground.Width = 200;
@@ -269,7 +273,7 @@ public class GameScene : Scene
         buttonBackground.Anchor(Anchor.Center);
         buttonVisual.AddChild(buttonBackground);
 
-        TextRuntime winnerText = new TextRuntime();
+        TextRuntime winnerText = new();
         winnerText.Text = winner;
         winnerText.FontScale = 0.70f;
         winnerText.Color = Color.SaddleBrown;
