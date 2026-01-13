@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace SwordsAndShields;
 
@@ -11,6 +12,7 @@ public class GameBoard(Texture2D boardTexture, Vector2 boardPosition, Rectangle 
     private readonly float _boardScale = 8.0f;
     private readonly SpriteEffects _boardEffects = SpriteEffects.None;
     private readonly float _boardLayerDepth = 0.0f;
+    private readonly Tile[,] _tiles = new Tile[3, 3];
     
     private readonly Rectangle[] _bounds = [
         new Rectangle(8, 8, 120, 120),
@@ -24,12 +26,12 @@ public class GameBoard(Texture2D boardTexture, Vector2 boardPosition, Rectangle 
         new Rectangle(272, 272, 120, 120)
     ];
 
-    public Vector2 BoardPosition { get; private set; } = boardPosition;
-    public Rectangle BoardSource { get; private set; } = boardSource;
+    private readonly Vector2 _boardPosition = boardPosition;
+    private readonly Rectangle _boardSource = boardSource;
 
     public void Draw(SpriteBatch spriteBatch, Vector2 boardOrigin)
     {
-        spriteBatch.Draw(_boardTexture, BoardPosition, BoardSource, _boardColor, _boardRotation, boardOrigin, _boardScale, _boardEffects, _boardLayerDepth);
+        spriteBatch.Draw(_boardTexture, _boardPosition, _boardSource, _boardColor, _boardRotation, boardOrigin, _boardScale, _boardEffects, _boardLayerDepth);
     }
 
     public Rectangle GetBounds(BoardLocation boardLocation)
@@ -69,16 +71,17 @@ public class GameBoard(Texture2D boardTexture, Vector2 boardPosition, Rectangle 
 
         return location;
     }
+
+    public Tile GetTile(int row, int column)
+    {
+        return _tiles[row, column];
+    }
+
+    public void SetTile(int row, int column, Tile tileStatus)
+    {
+        _tiles[row, column] = tileStatus;
+    }
 }
 
 public enum BoardLocation { TopLeft, TopMiddle, TopRight, Left, Middle, Right, BottomLeft, BottomMiddle, BottomRight }
-
-public enum TopLeft { Empty, PlayedBySwords, PlayedByShields }
-public enum TopMiddle { Empty, PlayedBySwords, PlayedByShields }
-public enum TopRight { Empty, PlayedBySwords, PlayedByShields }
-public enum Left { Empty, PlayedBySwords, PlayedByShields }
-public enum Middle { Empty, PlayedBySwords, PlayedByShields }
-public enum Right { Empty, PlayedBySwords, PlayedByShields }
-public enum BottomLeft { Empty, PlayedBySwords, PlayedByShields }
-public enum BottomMiddle { Empty, PlayedBySwords, PlayedByShields }
-public enum BottomRight { Empty, PlayedBySwords, PlayedByShields }
+public enum Tile { Empty, Sword, Shield }

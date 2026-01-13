@@ -37,15 +37,8 @@ public class GameScene : Scene
 
     private bool _isSwordsTurn = true;
 
-    private TopLeft _topLeft;
-    private TopMiddle _topMiddle;
-    private TopRight _topRight;
-    private Left _left;
-    private Middle _middle;
-    private Right _right;
-    private BottomLeft _bottomLeft;
-    private BottomMiddle _bottomMiddle;
-    private BottomRight _bottomRight;
+    private Tile _tile;
+    private int _tilesPlaced;
 
     private Panel _gameOverPanel;
 
@@ -85,7 +78,18 @@ public class GameScene : Scene
 
         GetPlayerChoice();
 
-        CheckForWin();
+        if (HasWon(_gameBoard, Tile.Sword))
+        {
+            PrintWinner("Swords Win");
+        }
+        else if (HasWon(_gameBoard, Tile.Shield))
+        {
+            PrintWinner("Shields Win");
+        }
+        else if (_tilesPlaced == 9)
+        {
+            PrintWinner("Draw!");
+        }
     }
 
     public override void Draw(GameTime gameTime)
@@ -130,180 +134,89 @@ public class GameScene : Scene
 
         if (Core.Input.Mouse.WasButtonJustPressed(MouseButton.Left))
         {
-            if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopLeft)) && _topLeft == TopLeft.Empty)
+            if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopLeft)) && _gameBoard.GetTile(0, 0) == Tile.Empty)
             {
-                if (_isSwordsTurn == true)
-                {
-                    PlaySwordTurn(BoardLocation.TopLeft);
-                    _topLeft = TopLeft.PlayedBySwords;
-                }
-                else
-                {
-                    PlayShieldTurn(BoardLocation.TopLeft);
-                    _topLeft = TopLeft.PlayedByShields;
-                }
+                _gameBoard.SetTile(0, 0, SetPlayerToken(BoardLocation.TopLeft));
             }
 
-            if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopMiddle)) && _topMiddle == TopMiddle.Empty)
+            if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopMiddle)) && _gameBoard.GetTile(0, 1) == Tile.Empty)
             {
-                if (_isSwordsTurn == true)
-                {
-                    PlaySwordTurn(BoardLocation.TopMiddle);
-                    _topMiddle = TopMiddle.PlayedBySwords;
-                }
-                else
-                {
-                    PlayShieldTurn(BoardLocation.TopMiddle);
-                    _topMiddle = TopMiddle.PlayedByShields;
-                }
+                _gameBoard.SetTile(0, 1, SetPlayerToken(BoardLocation.TopMiddle));
             }
 
-            if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopRight)) && _topRight == TopRight.Empty)
+            if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.TopRight)) && _gameBoard.GetTile(0, 2) == Tile.Empty)
             {
-                if (_isSwordsTurn == true)
-                {
-                    PlaySwordTurn(BoardLocation.TopRight);
-                    _topRight = TopRight.PlayedBySwords;
-                }
-                else
-                {
-                    PlayShieldTurn(BoardLocation.TopRight);
-                    _topRight = TopRight.PlayedByShields;
-                }
+                _gameBoard.SetTile(0, 2, SetPlayerToken(BoardLocation.TopRight));
             }
 
-            if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Left)) && _left == Left.Empty)
+            if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Left)) && _gameBoard.GetTile(1, 0) == Tile.Empty)
             {
-                if (_isSwordsTurn == true)
-                {
-                    PlaySwordTurn(BoardLocation.Left);
-                    _left = Left.PlayedBySwords;
-                }
-                else
-                {
-                    PlayShieldTurn(BoardLocation.Left);
-                    _left = Left.PlayedByShields;
-                }
+                _gameBoard.SetTile(1, 0, SetPlayerToken(BoardLocation.Left));
             }
 
-            if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Middle)) && _middle == Middle.Empty)
+            if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Middle)) && _gameBoard.GetTile(1, 1) == Tile.Empty)
             {
-                if (_isSwordsTurn == true)
-                {
-                    PlaySwordTurn(BoardLocation.Middle);
-                    _middle = Middle.PlayedBySwords;
-                }
-                else
-                {
-                    PlayShieldTurn(BoardLocation.Middle);
-                    _middle = Middle.PlayedByShields;
-                }
+                _gameBoard.SetTile(1, 1, SetPlayerToken(BoardLocation.Middle));
             }
 
-            if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Right)) && _right == Right.Empty)
+            if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.Right)) && _gameBoard.GetTile(1, 2) == Tile.Empty)
             {
-                if (_isSwordsTurn == true)
-                {
-                    PlaySwordTurn(BoardLocation.Right);
-                    _right = Right.PlayedBySwords;
-                }
-                else
-                {
-                    PlayShieldTurn(BoardLocation.Right);
-                    _right = Right.PlayedByShields;
-                }
+                _gameBoard.SetTile(1, 2, SetPlayerToken(BoardLocation.Right));
             }
 
-            if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomLeft)) && _bottomLeft == BottomLeft.Empty)
+            if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomLeft)) && _gameBoard.GetTile(2, 0) == Tile.Empty)
             {
-                if (_isSwordsTurn == true)
-                {
-                    PlaySwordTurn(BoardLocation.BottomLeft);
-                    _bottomLeft = BottomLeft.PlayedBySwords;
-                }
-                else
-                {
-                    PlayShieldTurn(BoardLocation.BottomLeft);
-                    _bottomLeft = BottomLeft.PlayedByShields;
-                }
+                _gameBoard.SetTile(2, 0, SetPlayerToken(BoardLocation.BottomLeft));
             }
 
-            if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomMiddle)) && _bottomMiddle == BottomMiddle.Empty)
+            if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomMiddle)) && _gameBoard.GetTile(2, 1) == Tile.Empty)
             {
-                if (_isSwordsTurn == true)
-                {
-                    PlaySwordTurn(BoardLocation.BottomMiddle);
-                    _bottomMiddle = BottomMiddle.PlayedBySwords;
-                }
-                else
-                {
-                    PlayShieldTurn(BoardLocation.BottomMiddle);
-                    _bottomMiddle = BottomMiddle.PlayedByShields;
-                }
+                _gameBoard.SetTile(2, 1, SetPlayerToken(BoardLocation.BottomMiddle));
             }
 
-            if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomRight)) && _bottomRight == BottomRight.Empty)
+            if (clickArea.Intersects(_gameBoard.GetBounds(BoardLocation.BottomRight)) && _gameBoard.GetTile(2, 2) == Tile.Empty)
             {
-                if (_isSwordsTurn == true)
-                {
-                    PlaySwordTurn(BoardLocation.BottomRight);
-                    _bottomRight = BottomRight.PlayedBySwords;
-                }
-                else
-                {
-                    PlayShieldTurn(BoardLocation.BottomRight);
-                    _bottomRight = BottomRight.PlayedByShields;
-                }
+                _gameBoard.SetTile(2, 2, SetPlayerToken(BoardLocation.BottomRight));
             }
         }
     }
 
-    private void PlaySwordTurn(BoardLocation boardLocation)
+    private Tile SetPlayerToken(BoardLocation boardLocation)
     {
-        _swordSound.Play();
-        _swordTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(boardLocation)));
-        _isSwordsTurn = false;
+        if (_isSwordsTurn)
+        {
+            _swordSound.Play();
+            _swordTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(boardLocation)));
+            _isSwordsTurn = false;
+            _tile = Tile.Sword;
+            _tilesPlaced++;
+            return Tile.Sword;
+        }
+        else
+        {
+            _shieldSound.Play();
+            _shieldTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(boardLocation)));
+            _isSwordsTurn = true;
+            _tile = Tile.Shield;
+            _tilesPlaced++;
+            return Tile.Shield;
+        }
     }
 
-    private void PlayShieldTurn(BoardLocation boardLocation)
+    public bool HasWon(GameBoard gameBoard, Tile tileStatus)
     {
-        _shieldSound.Play();
-        _shieldTokens.Add(new Token(_textureAtlas, _gameBoard.GetLocation(boardLocation)));
-        _isSwordsTurn = true;
-    }
+        if (gameBoard.GetTile(0, 0) == tileStatus && gameBoard.GetTile(0, 1) == tileStatus && gameBoard.GetTile(0, 2) == tileStatus) return true;
+        if (gameBoard.GetTile(1, 0) == tileStatus && gameBoard.GetTile(1, 1) == tileStatus && gameBoard.GetTile(1, 2) == tileStatus) return true;
+        if (gameBoard.GetTile(2, 0) == tileStatus && gameBoard.GetTile(2, 1) == tileStatus && gameBoard.GetTile(2, 2) == tileStatus) return true;
 
-    // LOL I hate this, but it was the first working solution that came to mind. "felt cute, might delete later"
-    public void CheckForWin()
-    {
-        if (_topLeft == TopLeft.PlayedBySwords && _topMiddle == TopMiddle.PlayedBySwords && _topRight == TopRight.PlayedBySwords ||
-            _left == Left.PlayedBySwords && _middle == Middle.PlayedBySwords && _right == Right.PlayedBySwords ||
-            _bottomLeft == BottomLeft.PlayedBySwords && _bottomMiddle == BottomMiddle.PlayedBySwords && _bottomRight == BottomRight.PlayedBySwords ||
-            _topLeft == TopLeft.PlayedBySwords && _left == Left.PlayedBySwords && _bottomLeft == BottomLeft.PlayedBySwords ||
-            _topMiddle == TopMiddle.PlayedBySwords && _middle == Middle.PlayedBySwords && _bottomMiddle == BottomMiddle.PlayedBySwords ||
-            _topRight == TopRight.PlayedBySwords && _right == Right.PlayedBySwords && _bottomRight == BottomRight.PlayedBySwords ||
-            _topLeft == TopLeft.PlayedBySwords && _middle == Middle.PlayedBySwords && _bottomRight == BottomRight.PlayedBySwords ||
-            _topRight == TopRight.PlayedBySwords && _middle == Middle.PlayedBySwords && _bottomLeft == BottomLeft.PlayedBySwords)
-        {
-            PrintWinner("Swords Win");
-        }
-        else if (_topLeft == TopLeft.PlayedByShields && _topMiddle == TopMiddle.PlayedByShields && _topRight == TopRight.PlayedByShields ||
-            _left == Left.PlayedByShields && _middle == Middle.PlayedByShields && _right == Right.PlayedByShields ||
-            _bottomLeft == BottomLeft.PlayedByShields && _bottomMiddle == BottomMiddle.PlayedByShields && _bottomRight == BottomRight.PlayedByShields ||
-            _topLeft == TopLeft.PlayedByShields && _left == Left.PlayedByShields && _bottomLeft == BottomLeft.PlayedByShields ||
-            _topMiddle == TopMiddle.PlayedByShields && _middle == Middle.PlayedByShields && _bottomMiddle == BottomMiddle.PlayedByShields ||
-            _topRight == TopRight.PlayedByShields && _right == Right.PlayedByShields && _bottomRight == BottomRight.PlayedByShields ||
-            _topLeft == TopLeft.PlayedByShields && _middle == Middle.PlayedByShields && _bottomRight == BottomRight.PlayedByShields ||
-            _topRight == TopRight.PlayedByShields && _middle == Middle.PlayedByShields && _bottomLeft == BottomLeft.PlayedByShields)
-        {
-            PrintWinner("Shields Win");
-        }
-        else if (_topLeft != TopLeft.Empty && _topMiddle != TopMiddle.Empty && _topRight != TopRight.Empty &&
-            _left != Left.Empty && _middle != Middle.Empty && _right != Right.Empty &&
-            _bottomLeft != BottomLeft.Empty && _bottomMiddle != BottomMiddle.Empty && _bottomRight != BottomRight.Empty)
-        {
-            PrintWinner("Draw!");
-        }
+        if (gameBoard.GetTile(0, 0) == tileStatus && gameBoard.GetTile(1, 0) == tileStatus && gameBoard.GetTile(2, 0) == tileStatus) return true;
+        if (gameBoard.GetTile(0, 1) == tileStatus && gameBoard.GetTile(1, 1) == tileStatus && gameBoard.GetTile(2, 1) == tileStatus) return true;
+        if (gameBoard.GetTile(0, 2) == tileStatus && gameBoard.GetTile(1, 2) == tileStatus && gameBoard.GetTile(2, 2) == tileStatus) return true;
 
+        if (gameBoard.GetTile(0, 0) == tileStatus && gameBoard.GetTile(1, 1) == tileStatus && gameBoard.GetTile(2, 2) == tileStatus) return true;
+        if (gameBoard.GetTile(0, 2) == tileStatus && gameBoard.GetTile(1, 1) == tileStatus && gameBoard.GetTile(2, 0) == tileStatus) return true;
+
+        return false;
     }
 
     private void CreateGameOverPanel()
@@ -378,28 +291,6 @@ public class GameScene : Scene
 
     private void HandlePlayAgainClicked(object sender, EventArgs e)
     {
-        StartNewGame();
-    }
-
-    private void StartNewGame()
-    {
-        _swordTokens.Clear();
-        _shieldTokens.Clear();
-
-        _topLeft = TopLeft.Empty;
-        _topMiddle = TopMiddle.Empty;
-        _topRight = TopRight.Empty;
-        _left = Left.Empty;
-        _middle = Middle.Empty;
-        _right = Right.Empty;
-        _bottomLeft = BottomLeft.Empty;
-        _bottomMiddle = BottomMiddle.Empty;
-        _bottomRight = BottomRight.Empty;
-
-        _isSwordsTurn = true;
-
-        _gameOverPanel.IsVisible = false;
-
         Core.ChangeScene(new TitleScene());
     }
 
